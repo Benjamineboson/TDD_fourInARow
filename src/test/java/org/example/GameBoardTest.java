@@ -20,8 +20,21 @@ public class GameBoardTest {
     }
 
     @Test
-    public void test_makeAMove(){
-
+    public void test_makeAMove_playerOne(){
     }
+
+    @Test
+    public void test_makeAMove_playerTwo(){
+    }
+
+    @Test
+    public void test_makeAMove_columnFull(){
+    }
+
+    @Test
+    public void test_makeAMove_winningMove(){
+    }
+
+
 
 }
