@@ -26,13 +26,13 @@ public class GameBoardTest {
     @Test
     public void test_makeAMove_playerOne(){
         String [][] expected = {
-                {"X"," "," "," "," "," "," "},
+                {" "," "," "," "," "," ","X"},
                 {" "," "," "," "," "," "," "},
                 {" "," "," "," "," "," "," "},
                 {" "," "," "," "," "," "," "},
                 {" "," "," "," "," "," "," "},
                 {" "," "," "," "," "," "," "}};
-        assertArrayEquals(expected,gameBoard.makeAMove(0));
+        assertArrayEquals(expected,gameBoard.makeAMove(6));
     }
 
     @Test
@@ -56,17 +56,23 @@ public class GameBoardTest {
         assertThrows(ColumnFullException.class, () -> gameBoard.makeAMove(0));
     }
 
-    @Test
-    public void testMakeAMove_winningMove_playerOne(){
-        String expected = "Player One";
-        assertEquals(expected,gameBoard.checkWinner());
-    }
 
-    @Test
-    public void testMakeAMove_winningMove_playerTwo(){
-        String expected = "Player Two";
-        assertEquals(expected,gameBoard.checkWinner());
-    }
+
+    /*
+    *   Should be tested in checkWinner() tests?
+    */
+
+//    @Test
+//    public void testMakeAMove_winningMove_playerOne(){
+//        String expected = "Player One";
+//        assertEquals(expected,gameBoard.checkWinner());
+//    }
+//
+//    @Test
+//    public void testMakeAMove_winningMove_playerTwo(){
+//        String expected = "Player Two";
+//        assertEquals(expected,gameBoard.checkWinner());
+//    }
 
     @Test
     public void test_makeAMove_indexOutOfBounds(){

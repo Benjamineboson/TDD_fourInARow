@@ -20,6 +20,7 @@ public class GameBoard implements GameEngine {
 
     @Override
     public String[][] makeAMove(int col) {
+        if (col > gameBoard[0].length-1 || col < 0) throw new IndexOutOfBoundsException();
         if (!gameBoard[5][col].equals(" ")) throw new ColumnFullException("This column is full");
         for (int i = 0; i < gameBoard.length; i++) {
             if (gameBoard[i][col].equals(" ")) {
