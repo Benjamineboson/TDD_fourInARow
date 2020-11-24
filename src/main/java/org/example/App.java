@@ -22,7 +22,6 @@ public class App
             }
         }
 
-
         for (int i = arr.length-1; i >= 0; i--) {
             System.out.print("| ");
             for (int j = 0; j < arr[i].length ; j++) {
@@ -31,12 +30,6 @@ public class App
             System.out.println();
             System.out.println("-------------------------------------------");
         }
-
-////        for (int i = 0; i < 42; i++) {
-////            for (int j = 0; j < ; j++) {
-////
-////            }
-////        }
-//        System.out.println( "Hello World!" );
     }
+
 }
