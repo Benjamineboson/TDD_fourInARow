@@ -1,6 +1,8 @@
 package org.example;
 
 
+import org.example.game_engine.GameBoard;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,15 +15,18 @@ public class App
 
     public static void main( String[] args )
     {
-        List<String> winningMoves = new ArrayList<>();
+        GameBoard gameBoard = new GameBoard();
         String [][] arr = new String[6][7];
-
-        for (int i = 0; i < arr.length ; i++) {
-            for (int j = 0; j < arr[i].length ; j++) {
-                arr[i][j] = ""+i+":"+j;
-                winningMoves.add(arr[i][j]);
-            }
+        for (int i = 0; i < 7; i++) {
+            if (i%2 == 0) arr = gameBoard.makeAMove(0);
+            else arr = gameBoard.makeAMove(1);
         }
+
+//        for (int i = 0; i < arr.length ; i++) {
+//            for (int j = 0; j < arr[i].length ; j++) {
+//                arr[i][j] = ""+i+":"+j;
+//            }
+//        }
 
         for (int i = arr.length-1; i >= 0; i--) {
             System.out.print("| ");
@@ -29,7 +34,7 @@ public class App
                 System.out.print(arr[i][j] + " | ");
             }
             System.out.println();
-            System.out.println("-------------------------------------------");
+            System.out.println("-----------------------------");
         }
     }
 
