@@ -89,7 +89,7 @@ public class GameBoardTest {
     // --------------------------------------- checkWinner() ---------------------------------------
 
     @Test
-    public void test_checkWinner_playerOne_vertical(){
+    public void test_checkWinner_playerOne_vertical_down(){
         for (int i = 0; i < 7; i++) {
             if (i%2 == 0) gameBoard.makeAMove(0);
             else gameBoard.makeAMove(1);
@@ -97,6 +97,31 @@ public class GameBoardTest {
         String expected = "Player One";
         assertEquals(expected,gameBoard.checkWinner());
     }
+
+//    @Test
+//    public void test_checkWinner_playerOne_vertical_up(){
+//        //p1
+//        gameBoard.makeAMove(0);
+//        //p2
+//        gameBoard.makeAMove(0);
+//        //p1
+//        gameBoard.makeAMove(0);
+//        //p2
+//        gameBoard.makeAMove(1);
+//        gameBoard.makeAMove(0);
+//        gameBoard.makeAMove(1);
+//        gameBoard.makeAMove(0);
+//        gameBoard.makeAMove(1);
+//        gameBoard.makeAMove(0);
+
+
+//        for (int i = 0; i < 7; i++) {
+//            if (i%2 == 0) gameBoard.makeAMove(0);
+//            else gameBoard.makeAMove(1);
+//        }
+//        String expected = "Player One";
+//        assertEquals(expected,gameBoard.checkWinner());
+//    }
 
     @Test
     public void test_checkWinner_playerTwo_vertical(){
@@ -110,11 +135,28 @@ public class GameBoardTest {
     }
 
     @Test
-    public void test_checkWinner_playerOne_horizontal(){
+    public void test_checkWinner_playerOne_horizontal_left(){
         for (int i = 0; i < 4 ; i++) {
             if (i > 2) gameBoard.makeAMove(i);
             else{gameBoard.makeAMove(i); gameBoard.makeAMove(i);}
         }
+        String expected = "Player One";
+        assertEquals(expected,gameBoard.checkWinner());
+    }
+
+    @Test
+    public void test_checkWinner_playerOne_horizontal_right(){
+        gameBoard.makeAMove(5);
+        gameBoard.makeAMove(6);
+        gameBoard.makeAMove(4);
+        gameBoard.makeAMove(6);
+        gameBoard.makeAMove(3);
+        gameBoard.makeAMove(6);
+        gameBoard.makeAMove(2);
+//        for (int i = 0; i < 4 ; i++) {
+//            if (i > 2) gameBoard.makeAMove(i);
+//            else{gameBoard.makeAMove(i); gameBoard.makeAMove(i);}
+//        }
         String expected = "Player One";
         assertEquals(expected,gameBoard.checkWinner());
     }
@@ -125,6 +167,58 @@ public class GameBoardTest {
           gameBoard.makeAMove(i);
           gameBoard.makeAMove(6);
         }
+        String expected = "Player Two";
+        assertEquals(expected,gameBoard.checkWinner());
+    }
+
+    @Test
+    public void test_checkWinner_playerOne_diagonally_up_right(){
+        //p1
+        gameBoard.makeAMove(1);
+        //p2
+        gameBoard.makeAMove(6);
+        //p1
+        gameBoard.makeAMove(1);
+        //p2
+        gameBoard.makeAMove(2);
+        //p1
+        gameBoard.makeAMove(2);
+        //p2
+        gameBoard.makeAMove(6);
+        //p1
+        gameBoard.makeAMove(2);
+        //p2
+        gameBoard.makeAMove(3);
+        //p1
+        gameBoard.makeAMove(3);
+        //p2
+        gameBoard.makeAMove(3);
+        //p1
+        gameBoard.makeAMove(3);
+        //p2
+        gameBoard.makeAMove(6);
+        //p1
+        gameBoard.makeAMove(0);
+
+        String expected = "Player One";
+        assertEquals(expected,gameBoard.checkWinner());
+    }
+
+    @Test
+    public void test_checkWinner_playerOne_diagonally_up_left(){
+        String expected = "Player One";
+        assertEquals(expected,gameBoard.checkWinner());
+
+    }
+
+    @Test
+    public void test_checkWinner_playerTwo_diagonally_down_right(){
+        String expected = "Player Two";
+        assertEquals(expected,gameBoard.checkWinner());
+    }
+
+    @Test
+    public void test_checkWinner_playerTwo_diagonally_down_left(){
         String expected = "Player Two";
         assertEquals(expected,gameBoard.checkWinner());
     }
