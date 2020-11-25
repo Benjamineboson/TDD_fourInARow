@@ -31,26 +31,6 @@ public class App
             System.out.println();
             System.out.println("-----------------------------");
         }
-
-        System.out.println("┌───┬───┬───┬───┬───┬───┬───┐");
-        for (int i = arr.length-1; i >= 0; i--) {
-            System.out.print("│ ");
-            for (int j = 0; j < arr[i].length ; j++) {
-                System.out.print(arr[i][j] + " │ ");
-            }
-            System.out.println();
-            if (i >= 1) {
-                System.out.println("├───┼───┼───┼───┼───┼───┼───┤");
-            } else {
-                System.out.println("└───┴───┴───┴───┴───┴───┴───┘");
-            }
-        }
-
-        String anotherBoardStyle =  "╔═══╦═══╦═══╦═══╦═══╦═══╦═══╗\n" +
-                                    "║   ║ X ║   ║   ║   ║   ║   ║\n" +
-                                    "╠═══╬═══╬═══╬═══╬═══╬═══╬═══╣\n" +
-                                    "║   ║ X ║ O ║   ║   ║   ║   ║\n" +
-                                    "╚═══╩═══╩═══╩═══╩═══╩═══╩═══╝\n";
-        System.out.println(anotherBoardStyle);
     }
+
 }
