@@ -3,6 +3,7 @@ package org.example;
 
 import org.example.game_engine.GameBoard;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,13 +22,7 @@ public class App
             if (i%2 == 0) arr = gameBoard.makeAMove(0);
             else arr = gameBoard.makeAMove(1);
         }
-
-//        for (int i = 0; i < arr.length ; i++) {
-//            for (int j = 0; j < arr[i].length ; j++) {
-//                arr[i][j] = ""+i+":"+j;
-//            }
-//        }
-
+        System.out.println(gameBoard.checkWinner());
         for (int i = arr.length-1; i >= 0; i--) {
             System.out.print("| ");
             for (int j = 0; j < arr[i].length ; j++) {

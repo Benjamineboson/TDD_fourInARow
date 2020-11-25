@@ -6,9 +6,13 @@ public class GameBoard implements GameEngine {
 
     private String[][] gameBoard;
     private boolean playerOne;
+    private String previousMove;
+    private int movesCounter;
 
     public GameBoard() {
-        playerOne = Math.floor(Math.random() * 2) == 0;
+        this.movesCounter = 0;
+        this.previousMove = "";
+        this.playerOne = Math.floor(Math.random() * 2) == 0;
         this.gameBoard = new String[][]{
                 {" ", " ", " ", " ", " ", " ", " "},
                 {" ", " ", " ", " ", " ", " ", " "},
@@ -25,16 +29,29 @@ public class GameBoard implements GameEngine {
         for (int i = 0; i < gameBoard.length; i++) {
             if (gameBoard[i][col].equals(" ")) {
                 gameBoard[i][col] = playerOne ? "X" : "O";
+                previousMove = ""+i+""+col;
                 playerOne = !playerOne;
+                movesCounter++;
                 break;
             }
         }
+        checkWinner();
         return gameBoard;
     }
 
     @Override
     public String checkWinner() {
-        return null;
+        int row = Integer.parseInt(previousMove.substring(0,1));
+        int col = Integer.parseInt(previousMove.substring(1));
+        String currentPlayer = playerOne ? "O" : "X";
+        int streak = 0;
+            for (int i = 1; i < 4; i++) if (row >= 3 && gameBoard[row-i][col].equals(currentPlayer)) streak++;
+                if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+            for (int i = 1; i < 4; i++) if (col >= 3 && gameBoard[row][col-i].equals(currentPlayer)) streak++;
+                if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+            for (int i = 1; i < 4; i++) if ((row >= 3 && col < 3)&&gameBoard[row-i][col+i].equals(currentPlayer)) streak++;
+                if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+            return "Draw";
     }
 
     @Override
