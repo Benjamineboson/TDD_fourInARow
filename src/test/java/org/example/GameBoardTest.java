@@ -58,24 +58,6 @@ public class GameBoardTest {
         assertThrows(ColumnFullException.class, () -> gameBoard.makeAMove(0));
     }
 
-
-
-    /**
-    *   Should be tested in checkWinner() tests?
-    */
-
-//    @Test
-//    public void testMakeAMove_winningMove_playerOne(){
-//        String expected = "Player One";
-//        assertEquals(expected,gameBoard.checkWinner());
-//    }
-//
-//    @Test
-//    public void testMakeAMove_winningMove_playerTwo(){
-//        String expected = "Player Two";
-//        assertEquals(expected,gameBoard.checkWinner());
-//    }
-
     @Test
     public void test_makeAMove_indexOutOfBounds(){
         assertThrows(IndexOutOfBoundsException.class, () -> gameBoard.makeAMove(999));
@@ -89,7 +71,7 @@ public class GameBoardTest {
     // --------------------------------------- checkWinner() ---------------------------------------
 
     @Test
-    public void test_checkWinner_playerOne_vertical_down(){
+    public void test_checkWinner_playerOne_vertical(){
         for (int i = 0; i < 7; i++) {
             if (i%2 == 0) gameBoard.makeAMove(0);
             else gameBoard.makeAMove(1);
@@ -97,31 +79,6 @@ public class GameBoardTest {
         String expected = "Player One";
         assertEquals(expected,gameBoard.checkWinner());
     }
-
-//    @Test
-//    public void test_checkWinner_playerOne_vertical_up(){
-//        //p1
-//        gameBoard.makeAMove(0);
-//        //p2
-//        gameBoard.makeAMove(0);
-//        //p1
-//        gameBoard.makeAMove(0);
-//        //p2
-//        gameBoard.makeAMove(1);
-//        gameBoard.makeAMove(0);
-//        gameBoard.makeAMove(1);
-//        gameBoard.makeAMove(0);
-//        gameBoard.makeAMove(1);
-//        gameBoard.makeAMove(0);
-
-
-//        for (int i = 0; i < 7; i++) {
-//            if (i%2 == 0) gameBoard.makeAMove(0);
-//            else gameBoard.makeAMove(1);
-//        }
-//        String expected = "Player One";
-//        assertEquals(expected,gameBoard.checkWinner());
-//    }
 
     @Test
     public void test_checkWinner_playerTwo_vertical(){
@@ -137,7 +94,7 @@ public class GameBoardTest {
     @Test
     public void test_checkWinner_playerOne_horizontal_left(){
         for (int i = 0; i < 4 ; i++) {
-            if (i > 2) gameBoard.makeAMove(i);
+            if (i == 3) gameBoard.makeAMove(i);
             else{gameBoard.makeAMove(i); gameBoard.makeAMove(i);}
         }
         String expected = "Player One";
@@ -146,26 +103,29 @@ public class GameBoardTest {
 
     @Test
     public void test_checkWinner_playerOne_horizontal_right(){
-        gameBoard.makeAMove(5);
-        gameBoard.makeAMove(6);
-        gameBoard.makeAMove(4);
-        gameBoard.makeAMove(6);
-        gameBoard.makeAMove(3);
-        gameBoard.makeAMove(6);
-        gameBoard.makeAMove(2);
-//        for (int i = 0; i < 4 ; i++) {
-//            if (i > 2) gameBoard.makeAMove(i);
-//            else{gameBoard.makeAMove(i); gameBoard.makeAMove(i);}
-//        }
+        String combination = "5646362";
+        for (int i = 0; i <  combination.length(); i++) {
+            gameBoard.makeAMove(Integer.parseInt(String.valueOf(combination.charAt(i))));
+        }
         String expected = "Player One";
         assertEquals(expected,gameBoard.checkWinner());
     }
 
     @Test
-    public void test_checkWinner_playerTwo_horizontal(){
-        for (int i = 0; i < 4 ; i++) {
-          gameBoard.makeAMove(i);
-          gameBoard.makeAMove(6);
+    public void test_checkWinner_playerTwo_horizontal_left(){
+        String combination = "61625354";
+        for (int i = 0; i <  combination.length(); i++) {
+            gameBoard.makeAMove(Integer.parseInt(String.valueOf(combination.charAt(i))));
+        }
+        String expected = "Player Two";
+        assertEquals(expected,gameBoard.checkWinner());
+    }
+
+    @Test
+    public void test_checkWinner_playerTwo_horizontal_right(){
+        String combination = "64635251";
+        for (int i = 0; i <  combination.length(); i++) {
+            gameBoard.makeAMove(Integer.parseInt(String.valueOf(combination.charAt(i))));
         }
         String expected = "Player Two";
         assertEquals(expected,gameBoard.checkWinner());
@@ -173,29 +133,10 @@ public class GameBoardTest {
 
     @Test
     public void test_checkWinner_playerOne_diagonally_up_right(){
-        //p1
-        gameBoard.makeAMove(2);
-        //p2
-        gameBoard.makeAMove(2);
-        //p1
-        gameBoard.makeAMove(2);
-        //p2
-        gameBoard.makeAMove(1);
-        //p1
-        gameBoard.makeAMove(1);
-        //p2
-        gameBoard.makeAMove(3);
-        //p1
-        gameBoard.makeAMove(3);
-        //p2
-        gameBoard.makeAMove(3);
-        //p1
-        gameBoard.makeAMove(3);
-        //p2
-        gameBoard.makeAMove(6);
-        //p1
-        gameBoard.makeAMove(0);
-
+        String combination = "22211333360";
+        for (int i = 0; i <  combination.length(); i++) {
+            gameBoard.makeAMove(Integer.parseInt(String.valueOf(combination.charAt(i))));
+        }
         String expectedWinner = "Player One";
         assertEquals(expectedWinner,gameBoard.checkWinner());
 
@@ -203,118 +144,113 @@ public class GameBoardTest {
 
     @Test
     public void test_checkWinner_playerOne_diagonally_up_left(){
-        //P1
-        gameBoard.makeAMove(4);
-        //P2
-        gameBoard.makeAMove(4);
-        //P1
-        gameBoard.makeAMove(4);
-        //P2
-        gameBoard.makeAMove(5);
-        //P1
-        gameBoard.makeAMove(5);
-        //P2
-        gameBoard.makeAMove(3);
-        //P1
-        gameBoard.makeAMove(3);
-        //P2
-        gameBoard.makeAMove(3);
-        //P1
-        gameBoard.makeAMove(3);
-        //P2
-        gameBoard.makeAMove(0);
-        //P1
-        gameBoard.makeAMove(6);
-
+        String combination = "44455333306";
+        for (int i = 0; i <  combination.length(); i++) {
+            gameBoard.makeAMove(Integer.parseInt(String.valueOf(combination.charAt(i))));
+        }
         String expected = "Player One";
         assertEquals(expected,gameBoard.checkWinner());
     }
 
     @Test
     public void test_checkWinner_playerOne_diagonally_down_right(){
-        //p1
-        gameBoard.makeAMove(6);
-        //p2
-        gameBoard.makeAMove(5);
-        //p1
-        gameBoard.makeAMove(5);
-        //p2
-        gameBoard.makeAMove(4);
-        //p1
-        gameBoard.makeAMove(4);
-        //p2
-        gameBoard.makeAMove(0);
-        //p1
-        gameBoard.makeAMove(4);
-        //p2
-        gameBoard.makeAMove(3);
-        //p1
-        gameBoard.makeAMove(3);
-        //p2
-        gameBoard.makeAMove(3);
-        //p1
-        gameBoard.makeAMove(3);
+        String combination = "65544043333";
+        for (int i = 0; i <  combination.length(); i++) {
+            gameBoard.makeAMove(Integer.parseInt(String.valueOf(combination.charAt(i))));
+        }
         String expectedWinner = "Player One";
         assertEquals(expectedWinner,gameBoard.checkWinner());
-
-        String [][] expected = {
-                {"O"," "," ","O","X","O","X"},
-                {" "," "," ","X","O","X"," "},
-                {" "," "," ","O","X"," "," "},
-                {" "," "," ","X"," "," "," "},
-                {" "," "," "," "," "," "," "},
-                {" "," "," "," "," "," "," "}};
     }
 
     @Test
     public void test_checkWinner_playerOne_diagonally_down_left(){
-        //P1
-        gameBoard.makeAMove(2);
-        //P2
-        gameBoard.makeAMove(2);
-        //P1
-        gameBoard.makeAMove(2);
-        //P2
-        gameBoard.makeAMove(3);
-        //P1
-        gameBoard.makeAMove(3);
-        //P2
-        gameBoard.makeAMove(1);
-        //P1
-        gameBoard.makeAMove(1);
-        //P2
-        gameBoard.makeAMove(1);
-        //P1
-        gameBoard.makeAMove(1);
-        //P2
-        gameBoard.makeAMove(0);
-        //P1
-        gameBoard.makeAMove(4);
-
-        String expected = "Player One";
-        assertEquals(expected,gameBoard.checkWinner());
-
-//        String [][] expected = {
-//                {"O","O","X","O","X"," "," "},
-//                {" ","X","O","X"," "," "," "},
-//                {" ","O","X"," "," "," "," "},
-//                {" ","X"," "," "," "," "," "},
-//                {" "," "," "," "," "," "," "},
-//                {" "," "," "," "," "," "," "}};
-//
-//        assertArrayEquals(expected,gameBoard.makeAMove(4));
+        String combination = "3445055666";
+        for (int i = 0; i <  combination.length(); i++) {
+            gameBoard.makeAMove(Integer.parseInt(String.valueOf(combination.charAt(i))));
+        }
+        String expectedWinner = "Player One";
+        String [][] expected = {
+                {"X"," "," ","X","O","O","O"},
+                {" "," "," "," ","X","O","X"},
+                {" "," "," "," "," ","X","O"},
+                {" "," "," "," "," "," ","X"},
+                {" "," "," "," "," "," "," "},
+                {" "," "," "," "," "," "," "}};
+        assertArrayEquals(expected,gameBoard.makeAMove(6));
+        assertEquals(expectedWinner,gameBoard.checkWinner());
     }
 
     @Test
     public void test_checkWinner_playerTwo_diagonally_down_right(){
-        String expected = "Player Two";
-        assertEquals(expected,gameBoard.checkWinner());
+        String combination = "63220111600";
+        for (int i = 0; i <  combination.length(); i++) {
+            gameBoard.makeAMove(Integer.parseInt(String.valueOf(combination.charAt(i))));
+        }
+        String [][] expected = {
+                {"X","O","X","O"," "," ","X"},
+                {"O","X","O"," "," "," ","X"},
+                {"X","O"," "," "," "," "," "},
+                {"O"," "," "," "," "," "," "},
+                {" "," "," "," "," "," "," "},
+                {" "," "," "," "," "," "," "}};
+        String expectedWinner = "Player Two";
+        assertArrayEquals(expected,gameBoard.makeAMove(0));
+        assertEquals(expectedWinner,gameBoard.checkWinner());
     }
 
     @Test
     public void test_checkWinner_playerTwo_diagonally_down_left(){
-        String expected = "Player Two";
-        assertEquals(expected,gameBoard.checkWinner());
+        String combination = "03446555066";
+        for (int i = 0; i <  combination.length(); i++) {
+            gameBoard.makeAMove(Integer.parseInt(String.valueOf(combination.charAt(i))));
+        }
+        String [][] expected = {
+                {"X"," "," ","O","X","O","X"},
+                {"X"," "," "," ","O","X","O"},
+                {" "," "," "," "," ","O","X"},
+                {" "," "," "," "," "," ","O"},
+                {" "," "," "," "," "," "," "},
+                {" "," "," "," "," "," "," "}};
+        String expectedWinner = "Player Two";
+        assertArrayEquals(expected,gameBoard.makeAMove(6));
+        assertEquals(expectedWinner,gameBoard.checkWinner());
+    }
+
+    @Test
+    public void test_checkWinner_playerTwo_diagonally_up_right(){
+        String combination = "62112233336";
+        for (int i = 0; i <  combination.length(); i++) {
+            gameBoard.makeAMove(Integer.parseInt(String.valueOf(combination.charAt(i))));
+        }
+        String [][] expected = {
+                {"O","X","O","X"," "," ","X"},
+                {" ","O","X","O"," "," ","X"},
+                {" "," ","O","X"," "," "," "},
+                {" "," "," ","O"," "," "," "},
+                {" "," "," "," "," "," "," "},
+                {" "," "," "," "," "," "," "}};
+        String expectedWinner = "Player Two";
+        assertArrayEquals(expected,gameBoard.makeAMove(0));
+        assertEquals(expectedWinner,gameBoard.checkWinner());
+
+    }
+
+    @Test
+    public void test_checkWinner_playerTwo_diagonally_up_left(){
+        String combination = "04445533330";
+        for (int i = 0; i <  combination.length(); i++) {
+            gameBoard.makeAMove(Integer.parseInt(String.valueOf(combination.charAt(i))));
+        }
+        String [][] expected = {
+                {"X"," "," ","X","O","X","O"},
+                {"X"," "," ","O","X","O"," "},
+                {" "," "," ","X","O"," "," "},
+                {" "," "," ","O"," "," "," "},
+                {" "," "," "," "," "," "," "},
+                {" "," "," "," "," "," "," "}};
+        String expectedWinner = "Player Two";
+        assertArrayEquals(expected,gameBoard.makeAMove(6));
+        assertEquals(expectedWinner,gameBoard.checkWinner());
     }
 
 
