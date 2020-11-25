@@ -196,15 +196,6 @@ public class GameBoardTest {
         //p1
         gameBoard.makeAMove(0);
 
-        String [][] expected = {
-                {"X","O","X","O"," "," ","O"},
-                {" ","X","O","X"," "," "," "},
-                {" "," ","X","O"," "," "," "},
-                {" "," "," ","X"," "," "," "},
-                {" "," "," "," "," "," "," "},
-                {" "," "," "," "," "," "," "}};
-
-        //assertArrayEquals(expected,gameBoard.makeAMove(0));
         String expectedWinner = "Player One";
         assertEquals(expectedWinner,gameBoard.checkWinner());
 
@@ -232,21 +223,11 @@ public class GameBoardTest {
         gameBoard.makeAMove(3);
         //P2
         gameBoard.makeAMove(0);
-
-        String [][] expected = {
-                {"O"," "," ","O","X","O","X"},
-                {" "," "," ","X","O","X"," "},
-                {" "," "," ","O","X"," "," "},
-                {" "," "," ","X"," "," "," "},
-                {" "," "," "," "," "," "," "},
-                {" "," "," "," "," "," "," "}};
-        String expectedWinner = "Player One";
-        assertArrayEquals(expected,gameBoard.makeAMove(6));
-
         //P1
-        //gameBoard.makeAMove(4);
-        //assertEquals(expectedWinner,gameBoard.checkWinner());
-        //String expectedWinner = "Player One";
+        gameBoard.makeAMove(6);
+
+        String expected = "Player One";
+        assertEquals(expected,gameBoard.checkWinner());
     }
 
     @Test
@@ -307,20 +288,21 @@ public class GameBoardTest {
         gameBoard.makeAMove(1);
         //P2
         gameBoard.makeAMove(0);
+        //P1
+        gameBoard.makeAMove(4);
 
+        String expected = "Player One";
+        assertEquals(expected,gameBoard.checkWinner());
 
-        //String expected = "Player One";
-        //assertEquals(expected,gameBoard.checkWinner());
-
-        String [][] expected = {
-                {"O","O","X","O","X"," "," "},
-                {" ","X","O","X"," "," "," "},
-                {" ","O","X"," "," "," "," "},
-                {" ","X"," "," "," "," "," "},
-                {" "," "," "," "," "," "," "},
-                {" "," "," "," "," "," "," "}};
-
-        assertArrayEquals(expected,gameBoard.makeAMove(4));
+//        String [][] expected = {
+//                {"O","O","X","O","X"," "," "},
+//                {" ","X","O","X"," "," "," "},
+//                {" ","O","X"," "," "," "," "},
+//                {" ","X"," "," "," "," "," "},
+//                {" "," "," "," "," "," "," "},
+//                {" "," "," "," "," "," "," "}};
+//
+//        assertArrayEquals(expected,gameBoard.makeAMove(4));
     }
 
     @Test
