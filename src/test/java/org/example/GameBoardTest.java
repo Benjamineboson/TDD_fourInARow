@@ -6,6 +6,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
+import static org.graalvm.compiler.debug.DebugOptions.PrintGraphTarget.File;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameBoardTest {
@@ -194,7 +197,6 @@ public class GameBoardTest {
                 {" "," "," "," "," "," "," "}};
         assertArrayEquals(expected,gameBoard.makeAMove(0));
         assertEquals(expectedWinner,gameBoard.checkWinner());
-
     }
 
     @Test
@@ -325,8 +327,30 @@ public class GameBoardTest {
     }
 
 
+    // --------------------------------------- viewReplay() ---------------------------------------
 
+    @Test
+    public void test_file_created() {
 
+    }
 
+    @Test
+    public void test_read_file() {
+
+    }
+    @Test
+    public void test_file_fileDontExist() {
+
+    }
+
+    @Test
+    public void test_file_fileNotFound() {
+
+    }
+
+    @Test
+    public void test_file_fileEmpty() {
+
+    }
 
 }
