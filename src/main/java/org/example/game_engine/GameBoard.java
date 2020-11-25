@@ -91,22 +91,25 @@ public class GameBoard implements GameEngine {
                 if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two";
             }
 
-
-
             //Diagonally down and to the left
-//            for (int i = 1; i < 4; i++) if ((row >= 3 && col >= 3)&&gameBoard[row-i][col-i].equals(currentPlayer)) streak++;
-//            if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+            for (int i = 1; i < 4; i++){
+                if ((row >= 3 && col >= 3)&&gameBoard[row-i][col-i].equals(currentPlayer)) streak++;
+                if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+            }
 
             //Diagonally up and to the right
-//            for (int i = 1; i < 4; i++) if ((row < 3 && col <= 3)&&gameBoard[row+i][col+i].equals(currentPlayer)) streak++;
-//            if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+            for (int i = 1; i < 4; i++){
+              if ((row < 3 && col <= 3)&&gameBoard[row+i][col+i].equals(currentPlayer)) streak++;
+              if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+            }
 
             //Diagonally up and to the left
-//            for (int i = 1; i < 4; i++) if ((row < 3 && col >= 3)&&gameBoard[row+i][col-i].equals(currentPlayer)) streak++;
-//            if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+            for (int i = 1; i < 4; i++){
+               if ((row < 3 && col >= 3)&&gameBoard[row+i][col-i].equals(currentPlayer)) streak++;
+               if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+            }
 
             return "Draw";
-
     }
 
     @Override
