@@ -174,19 +174,15 @@ public class GameBoardTest {
     @Test
     public void test_checkWinner_playerOne_diagonally_up_right(){
         //p1
+        gameBoard.makeAMove(2);
+        //p2
+        gameBoard.makeAMove(2);
+        //p1
+        gameBoard.makeAMove(2);
+        //p2
         gameBoard.makeAMove(1);
-        //p2
-        gameBoard.makeAMove(6);
         //p1
         gameBoard.makeAMove(1);
-        //p2
-        gameBoard.makeAMove(2);
-        //p1
-        gameBoard.makeAMove(2);
-        //p2
-        gameBoard.makeAMove(6);
-        //p1
-        gameBoard.makeAMove(2);
         //p2
         gameBoard.makeAMove(3);
         //p1
@@ -199,9 +195,16 @@ public class GameBoardTest {
         gameBoard.makeAMove(6);
         //p1
         gameBoard.makeAMove(0);
-
-        String expected = "Player One";
-        assertEquals(expected,gameBoard.checkWinner());
+        String [][] expected = {
+                {"X","O","X","O"," "," ","O"},
+                {" ","X","O","X"," "," "," "},
+                {" "," ","X","O"," "," "," "},
+                {" "," "," ","X"," "," "," "},
+                {" "," "," "," "," "," "," "},
+                {" "," "," "," "," "," "," "}};
+        String expectedWinner = "Player One";
+        assertEquals(expectedWinner,gameBoard.checkWinner());
+        assertArrayEquals(expected,gameBoard.makeAMove(0));
     }
 
     @Test
@@ -209,6 +212,34 @@ public class GameBoardTest {
         String expected = "Player One";
         assertEquals(expected,gameBoard.checkWinner());
 
+    }
+
+    @Test
+    public void test_checkWinner_playerOne_diagonally_down_right(){
+        //p1
+        gameBoard.makeAMove(6);
+        //p2
+        gameBoard.makeAMove(5);
+        //p1
+        gameBoard.makeAMove(5);
+        //p2
+        gameBoard.makeAMove(4);
+        //p1
+        gameBoard.makeAMove(4);
+        //p2
+        gameBoard.makeAMove(0);
+        //p1
+        gameBoard.makeAMove(4);
+        //p2
+        gameBoard.makeAMove(3);
+        //p1
+        gameBoard.makeAMove(3);
+        //p2
+        gameBoard.makeAMove(3);
+        //p1
+        gameBoard.makeAMove(3);
+        String expected = "Player One";
+        assertEquals(expected,gameBoard.checkWinner());
     }
 
     @Test
