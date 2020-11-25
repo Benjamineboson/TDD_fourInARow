@@ -23,6 +23,8 @@ public class GameBoardTest {
         gameBoard = null;
     }
 
+    // --------------------------------------- makeAMove() ---------------------------------------
+
     @Test
     public void test_makeAMove_playerOne(){
         String [][] expected = {
@@ -58,7 +60,7 @@ public class GameBoardTest {
 
 
 
-    /*
+    /**
     *   Should be tested in checkWinner() tests?
     */
 
@@ -83,6 +85,50 @@ public class GameBoardTest {
     public void test_makeAMove_indexOutOfBounds_negative(){
         assertThrows(IndexOutOfBoundsException.class, () -> gameBoard.makeAMove(-999));
     }
+
+    // --------------------------------------- checkWinner() ---------------------------------------
+
+    @Test
+    public void test_checkWinner_playerOne_vertical(){
+        for (int i = 0; i < 7; i++) {
+            if (i%2 == 0) gameBoard.makeAMove(0);
+            else gameBoard.makeAMove(1);
+        }
+        String expected = "Player One";
+        assertEquals(expected,gameBoard.checkWinner());
+    }
+
+    @Test
+    public void test_checkWinner_playerTwo_vertical(){
+        gameBoard.makeAMove(3);
+        for (int i = 0; i < 7; i++) {
+            if (i%2 != 0) gameBoard.makeAMove(0);
+            else gameBoard.makeAMove(1);
+        }
+        String expected = "Player Two";
+        assertEquals(expected,gameBoard.checkWinner());
+    }
+
+    @Test
+    public void test_checkWinner_playerOne_horizontal(){
+        for (int i = 0; i < 4 ; i++) {
+            if (i > 2) gameBoard.makeAMove(i);
+            else{gameBoard.makeAMove(i); gameBoard.makeAMove(i);}
+        }
+        String expected = "Player One";
+        assertEquals(expected,gameBoard.checkWinner());
+    }
+
+    @Test
+    public void test_checkWinner_playerTwo_horizontal(){
+        for (int i = 0; i < 4 ; i++) {
+          gameBoard.makeAMove(i);
+          gameBoard.makeAMove(6);
+        }
+        String expected = "Player Two";
+        assertEquals(expected,gameBoard.checkWinner());
+    }
+
 
 
 
