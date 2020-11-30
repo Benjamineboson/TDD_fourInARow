@@ -46,7 +46,7 @@ public class App
         System.out.println("Connect four - the Game ");
         System.out.println("\nMain Menu:");
         System.out.println("1. Play a game of connect four");
-        System.out.println("2. Replay a game");
+        System.out.println("2. View Replay of latest game");
         System.out.println("Q. Exit to desktop");
     }
 

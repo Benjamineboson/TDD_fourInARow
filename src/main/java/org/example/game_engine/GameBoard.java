@@ -1,12 +1,18 @@
 package org.example.game_engine;
 
 import org.example.App;
+import org.example.IO_utils.BReader;
+import org.example.IO_utils.BWriter;
 import org.example.IO_utils.ScannerInput;
 import org.example.exceptions.ColumnFullException;
+
+import java.io.*;
 
 public class GameBoard implements GameEngine {
 
     private ScannerInput scannerInput = new ScannerInput();
+    BWriter bufferWriter = new BWriter();
+    BReader bufferReader = new BReader();
 
     private String[][] gameBoard;
     private boolean playerOne;
@@ -58,6 +64,10 @@ public class GameBoard implements GameEngine {
     }
 
     public void printCurrentBoard() {
+
+        // write currentBoard to file.
+        bufferWriter.writeToFile(gameBoard);
+
         System.out.println("\n┌───┬───┬───┬───┬───┬───┬───┐");
         for (int i = gameBoard.length-1; i >= 0; i--) {
             System.out.print("│ ");
@@ -90,9 +100,6 @@ public class GameBoard implements GameEngine {
         } else {
             App.startApp();
         }
-
-        System.out.println("Continue by pressing enter...");
-
     }
 
     @Override
@@ -205,7 +212,8 @@ public class GameBoard implements GameEngine {
 
     @Override
     public void viewReplay() {
-
+        bufferReader.readFromFile().forEach(System.out::println);
+        resetGameBoard();
     }
 
     public void setPlayerOne(boolean playerOne) {
