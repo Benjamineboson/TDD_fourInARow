@@ -1,5 +1,6 @@
 package org.example.game_engine;
 
+import org.example.App;
 import org.example.IO_utils.ScannerInput;
 import org.example.exceptions.ColumnFullException;
 
@@ -12,8 +13,8 @@ public class GameBoard implements GameEngine {
     private String previousMove;
     private int movesCounter;
     private int numberOfRounds;
-    private int playerOneWonRounds;
-    private int playerTwoWonRounds;
+    private int pOneWonRounds;
+    private int pTwoWonRounds;
 
     public GameBoard() {
         this.movesCounter = 0;
@@ -28,10 +29,26 @@ public class GameBoard implements GameEngine {
                 {" ", " ", " ", " ", " ", " ", " "}};
     }
 
-    public void play() {
-        System.out.print("choose number of rounds: ");
+    public void setNumberOfRounds() {
+        System.out.print("Choose number of rounds: ");
         numberOfRounds = scannerInput.getUserInput().nextInt();
+        play();
+    }
 
+    public void resetGameBoard() {
+        this.playerOne = Math.floor(Math.random() * 2) == 0;
+        gameBoard = new String[][]{
+                {" ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " "}};
+        play();
+    }
+
+    public void play() {
+        System.out.println("Current score: " + "PlayerOne: " + pOneWonRounds + " PlayerTwo: " + pTwoWonRounds);
         while (numberOfRounds > 0) {
             System.out.print(playerOne ? "\nPlayerOne, " : "\nPlayerTwo, ");
             System.out.print("Choose your play: ");
@@ -60,8 +77,22 @@ public class GameBoard implements GameEngine {
         System.out.println("\n┌───────────────────────┐");
         System.out.println(currentPlayer.contentEquals("X") ? "├─── PlayerOne Wins! ───┤" : "├─── PlayerTwo Wins! ───┤");
         System.out.println("└───────────────────────┘");
+        printCurrentBoard();
+
+        if (currentPlayer.contentEquals("X")) {
+            pOneWonRounds++;
+        } else {
+            pTwoWonRounds++;
+        }
+
+        if ((numberOfRounds > 0)) {
+            resetGameBoard();
+        } else {
+            App.startApp();
+        }
+
         System.out.println("Continue by pressing enter...");
-        
+
     }
 
     @Override

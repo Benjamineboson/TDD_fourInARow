@@ -16,28 +16,31 @@ public class App
     static boolean keepRun = true;
 
 
-    public static void main( String[] args )
-    {
-            printMenu();
-            while (keepRun) {
-                String selection = scannerInput.getUserInput().nextLine();
-                switch (selection) {
-                    case "1":
-                        gameBoard.play();
-                        break;
-                    case "2":
-                        printBoard(); // will be changed later...
-                        break;
-                    case "Q": case "q":
-                        System.out.println("Quit...");
-                        scannerInput.getUserInput().close();
-                        keepRun = false;
-                        break;
-                    default:
-                        printMenu();
-                }
+    public static void main( String[] args ) {
+        startApp();
+    }
+
+    public static void startApp() {
+        printMenu();
+        while (keepRun) {
+            String selection = scannerInput.getUserInput().nextLine();
+            switch (selection) {
+                case "1":
+                    gameBoard.setNumberOfRounds();
+                    break;
+                case "2":
+                    printBoard(); // will be changed later...
+                    break;
+                case "Q": case "q":
+                    System.out.println("Quit...");
+                    scannerInput.getUserInput().close();
+                    keepRun = false;
+                    break;
+                default:
+                    printMenu();
             }
         }
+    }
 
     private static void printMenu() {
         System.out.println("Connect four - the Game ");
