@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-import static org.graalvm.compiler.debug.DebugOptions.PrintGraphTarget.File;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameBoardTest {

@@ -1,7 +1,8 @@
 package org.example;
 
-
 import org.example.game_engine.GameBoard;
+
+import java.util.Scanner;
 
 
 /**
@@ -11,9 +12,43 @@ import org.example.game_engine.GameBoard;
 public class App 
 {
 
+    static Scanner scannerInput = new Scanner(System.in);
+    static GameBoard gameBoard = new GameBoard();
+    static boolean keepRun = true;
+
+
     public static void main( String[] args )
     {
-            GameBoard gameBoard = new GameBoard();
+            printMenu();
+            while (keepRun) {
+                String selection = scannerInput.nextLine();
+                switch (selection) {
+                    case "1":
+                        printBoard(); // should call play()...
+                        break;
+                    case "2":
+                        printBoard(); // will be changed later...
+                        break;
+                    case "Q": case "q":
+                        System.out.println("Quit...");
+                        keepRun = false;
+                        break;
+                    default:
+                        System.out.println("Please make a selection in the menu.");
+                }
+            }
+        }
+
+    private static void printMenu() {
+        System.out.println("Connect four - the Game ");
+        System.out.println("\nMain Menu:");
+        System.out.println("1. Play a game of connect four");
+        System.out.println("2. Replay a game");
+        System.out.println("Q. Exit to desktop");
+    }
+
+    // temporary method.....
+    public static void printBoard() {
             String [][] arr = new String[6][7];
             for (int i = 0; i < 7; i++) {
                 if (i%2 == 0) arr = gameBoard.makeAMove(0);
@@ -28,8 +63,6 @@ public class App
                 System.out.println();
                 System.out.println("-----------------------------");
             }
-
-
 
             System.out.println("┌───┬───┬───┬───┬───┬───┬───┐");
             for (int i = arr.length-1; i >= 0; i--) {
@@ -47,10 +80,10 @@ public class App
 
             String anotherBoardStyle =
                     "╔═══╦═══╦═══╦═══╦═══╦═══╦═══╗\n" +
-                    "║   ║ X ║   ║   ║   ║   ║   ║\n" +
-                    "╠═══╬═══╬═══╬═══╬═══╬═══╬═══╣\n" +
-                    "║   ║ X ║ O ║   ║   ║   ║   ║\n" +
-                    "╚═══╩═══╩═══╩═══╩═══╩═══╩═══╝\n";
+                            "║   ║ X ║   ║   ║   ║   ║   ║\n" +
+                            "╠═══╬═══╬═══╬═══╬═══╬═══╬═══╣\n" +
+                            "║   ║ X ║ O ║   ║   ║   ║   ║\n" +
+                            "╚═══╩═══╩═══╩═══╩═══╩═══╩═══╝\n";
             System.out.println(anotherBoardStyle);
         }
 }
