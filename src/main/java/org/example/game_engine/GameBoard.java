@@ -1,13 +1,19 @@
 package org.example.game_engine;
 
+import org.example.IO_utils.ScannerInput;
 import org.example.exceptions.ColumnFullException;
 
 public class GameBoard implements GameEngine {
+
+    private ScannerInput scannerInput = new ScannerInput();
 
     private String[][] gameBoard;
     private boolean playerOne;
     private String previousMove;
     private int movesCounter;
+    private int numberOfRounds;
+    private int playerOneWonRounds;
+    private int playerTwoWonRounds;
 
     public GameBoard() {
         this.movesCounter = 0;
@@ -20,22 +26,42 @@ public class GameBoard implements GameEngine {
                 {" ", " ", " ", " ", " ", " ", " "},
                 {" ", " ", " ", " ", " ", " ", " "},
                 {" ", " ", " ", " ", " ", " ", " "}};
+    }
 
+    public void play() {
+        System.out.print("choose number of rounds: ");
+        numberOfRounds = scannerInput.getUserInput().nextInt();
 
-//                "╔═══╦═══╦═══╦═══╦═══╦═══╦═══╗
-//                "║50 ║   ║   ║   ║   ║   ║   ║
-//                "╠═══╬═══╬═══╬═══╬═══╬═══╬═══╣
-//                "║40 ║   ║   ║   ║   ║   ║   ║
-//                "╠═══╬═══╬═══╬═══╬═══╬═══╬═══╣
-//                "║30 ║   ║   ║   ║   ║   ║   ║
-//                "╠═══╬═══╬═══╬═══╬═══╬═══╬═══╣
-//                "║20 ║   ║   ║   ║   ║   ║   ║
-//                "╠═══╬═══╬═══╬═══╬═══╬═══╬═══╣
-//                "║10 ║   ║   ║   ║   ║   ║   ║
-//                "╠═══╬═══╬═══╬═══╬═══╬═══╬═══╣
-//                "║00 ║01 ║02 ║03 ║04 ║05 ║06 ║
-//                "╚═══╩═══╩═══╩═══╩═══╩═══╩═══╝
+        while (numberOfRounds > 0) {
+            System.out.print(playerOne ? "\nPlayerOne, " : "\nPlayerTwo, ");
+            System.out.print("Choose your play: ");
+            makeAMove(scannerInput.getUserInput().nextInt());
+            printCurrentBoard();
+        }
+    }
 
+    public void printCurrentBoard() {
+        System.out.println("\n┌───┬───┬───┬───┬───┬───┬───┐");
+        for (int i = gameBoard.length-1; i >= 0; i--) {
+            System.out.print("│ ");
+            for (int j = 0; j < gameBoard[i].length ; j++) {
+                System.out.print(gameBoard[i][j] + " │ ");
+            }
+            System.out.println();
+            if (i >= 1) {
+                System.out.println("├───┼───┼───┼───┼───┼───┼───┤");
+            } else {
+                System.out.println("└───┴───┴───┴───┴───┴───┴───┘");
+            }
+        }
+    }
+
+    public void printWinner(String currentPlayer) {
+        System.out.println("\n┌───────────────────────┐");
+        System.out.println(currentPlayer.contentEquals("X") ? "├─── PlayerOne Wins! ───┤" : "├─── PlayerTwo Wins! ───┤");
+        System.out.println("└───────────────────────┘");
+        System.out.println("Continue by pressing enter...");
+        
     }
 
     @Override
@@ -52,7 +78,6 @@ public class GameBoard implements GameEngine {
                 break;
             }
         }
-
         checkWinner();
         return gameBoard;
     }
@@ -70,43 +95,78 @@ public class GameBoard implements GameEngine {
             // Vertically down
             for (int i = 1; i < 4; i++){
                 if (row >= 3 && gameBoard[row-i][col].equals(currentPlayer)) streak++;
-                if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two";
+                if (streak == 3) {
+                    // every move, decrease amount of given rounds
+                    numberOfRounds--;
+                    printWinner(currentPlayer);
+                    return currentPlayer.equals("X") ? "Player One" : "Player Two";
+                }
             }
 
             //Horizontally left
             for (int i = 1; i < 4; i++){
                 if (col >= 3 && gameBoard[row][col-i].equals(currentPlayer)) streak++;
-                if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two";
+                if (streak == 3) {
+                    // every move, decrease amount of given rounds
+                    numberOfRounds--;
+                    printWinner(currentPlayer);
+                    return currentPlayer.equals("X") ? "Player One" : "Player Two";
+                }
             }
 
             //Horizontally right
             for (int i = 1; i < 4; i++){
                 if (col <= 3 && gameBoard[row][col+i].equals(currentPlayer)) streak++;
-                if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two";
+                if (streak == 3) {
+                    // every move, decrease amount of given rounds
+                    numberOfRounds--;
+                    printWinner(currentPlayer);
+                    return currentPlayer.equals("X") ? "Player One" : "Player Two";
+                }
             }
 
             //Diagonally down and to the right
             for (int i = 1; i < 4; i++){
                 if ((row >= 3 && col <= 3) && (gameBoard[row-i][col+i].equals(currentPlayer))) streak++;
-                if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two";
+                if (streak == 3) {
+                    // every move, decrease amount of given rounds
+                    numberOfRounds--;
+                    printWinner(currentPlayer);
+                    return currentPlayer.equals("X") ? "Player One" : "Player Two";
+                }
             }
 
             //Diagonally down and to the left
             for (int i = 1; i < 4; i++){
                 if ((row >= 3 && col >= 3)&&gameBoard[row-i][col-i].equals(currentPlayer)) streak++;
-                if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+                if (streak == 3) {
+                    // every move, decrease amount of given rounds
+                    numberOfRounds--;
+                    printWinner(currentPlayer);
+                    return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+                }
             }
 
             //Diagonally up and to the right
             for (int i = 1; i < 4; i++){
               if ((row < 3 && col <= 3)&&gameBoard[row+i][col+i].equals(currentPlayer)) streak++;
-              if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+              if (streak == 3) {
+                  // every move, decrease amount of given rounds
+                  numberOfRounds--;
+                  printWinner(currentPlayer);
+                  return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+              }
             }
 
             //Diagonally up and to the left
             for (int i = 1; i < 4; i++){
                if ((row < 3 && col >= 3)&&gameBoard[row+i][col-i].equals(currentPlayer)) streak++;
-               if (streak == 3) return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+               if (streak == 3) {
+                   // every move, decrease amount of given rounds
+                   numberOfRounds--;
+                   printWinner(currentPlayer);
+                   return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+               }
             }
 
             return "Draw";

@@ -1,9 +1,9 @@
 package org.example;
 
+import org.example.IO_utils.ScannerInput;
 import org.example.game_engine.GameBoard;
 
 import java.util.Scanner;
-
 
 /**
  * Hello world!
@@ -11,8 +11,7 @@ import java.util.Scanner;
  */
 public class App 
 {
-
-    static Scanner scannerInput = new Scanner(System.in);
+    static ScannerInput scannerInput = new ScannerInput();
     static GameBoard gameBoard = new GameBoard();
     static boolean keepRun = true;
 
@@ -21,20 +20,21 @@ public class App
     {
             printMenu();
             while (keepRun) {
-                String selection = scannerInput.nextLine();
+                String selection = scannerInput.getUserInput().nextLine();
                 switch (selection) {
                     case "1":
-                        printBoard(); // should call play()...
+                        gameBoard.play();
                         break;
                     case "2":
                         printBoard(); // will be changed later...
                         break;
                     case "Q": case "q":
                         System.out.println("Quit...");
+                        scannerInput.getUserInput().close();
                         keepRun = false;
                         break;
                     default:
-                        System.out.println("Please make a selection in the menu.");
+                        printMenu();
                 }
             }
         }
