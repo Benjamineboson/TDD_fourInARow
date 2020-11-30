@@ -17,14 +17,16 @@ public class GameBoard implements GameEngine {
     private String[][] gameBoard;
     private boolean playerOne;
     private String previousMove;
-    private int movesCounter;
+    private int roundsCounter;
     private int numberOfRounds;
     private int pOneWonRounds;
     private int pTwoWonRounds;
+    private boolean isTesting;
 
     public GameBoard() {
-        this.movesCounter = 0;
+        this.roundsCounter = 0;
         this.previousMove = "";
+        this.isTesting = false;
         this.playerOne = Math.floor(Math.random() * 2) == 0;
         this.gameBoard = new String[][]{
                 {" ", " ", " ", " ", " ", " ", " "},
@@ -38,6 +40,7 @@ public class GameBoard implements GameEngine {
     public void setNumberOfRounds() {
         System.out.print("Choose number of rounds: ");
         numberOfRounds = scannerInput.getUserInput().nextInt();
+        roundsCounter = 0;
         play();
     }
 
@@ -50,14 +53,14 @@ public class GameBoard implements GameEngine {
                 {" ", " ", " ", " ", " ", " ", " "},
                 {" ", " ", " ", " ", " ", " ", " "},
                 {" ", " ", " ", " ", " ", " ", " "}};
-        play();
     }
 
     public void play() {
-        System.out.println("Current score: " + "PlayerOne: " + pOneWonRounds + " PlayerTwo: " + pTwoWonRounds);
+        System.out.println("Round "+(++roundsCounter));
         while (numberOfRounds > 0) {
             System.out.print(playerOne ? "\nPlayerOne, " : "\nPlayerTwo, ");
             System.out.print("Choose your play: ");
+            // Continue round
             makeAMove(scannerInput.getUserInput().nextInt());
             printCurrentBoard();
         }
@@ -65,8 +68,8 @@ public class GameBoard implements GameEngine {
 
     public void printCurrentBoard() {
 
-        // write currentBoard to file.
-        bufferWriter.writeToFile(gameBoard);
+//         write currentBoard to file.
+//        bufferWriter.writeToFile(gameBoard);
 
         System.out.println("\n┌───┬───┬───┬───┬───┬───┬───┐");
         for (int i = gameBoard.length-1; i >= 0; i--) {
@@ -89,15 +92,12 @@ public class GameBoard implements GameEngine {
         System.out.println("└───────────────────────┘");
         printCurrentBoard();
 
-        if (currentPlayer.contentEquals("X")) {
-            pOneWonRounds++;
-        } else {
-            pTwoWonRounds++;
-        }
+        if (currentPlayer.contentEquals("X")) pOneWonRounds++;
+        else pTwoWonRounds++;
 
-        if ((numberOfRounds > 0)) {
-            resetGameBoard();
-        } else {
+        System.out.println("Current score: " + "PlayerOne: " + pOneWonRounds + " PlayerTwo: " + pTwoWonRounds);
+        resetGameBoard();
+        if (numberOfRounds == 0 && !isTesting) {
             App.startApp();
         }
     }
@@ -112,7 +112,6 @@ public class GameBoard implements GameEngine {
                 gameBoard[i][col] = playerOne ? "X" : "O";
                 previousMove = ""+i+""+col;
                 playerOne = !playerOne;
-                movesCounter++;
                 break;
             }
         }
@@ -136,21 +135,26 @@ public class GameBoard implements GameEngine {
                 if (streak == 3) {
                     // every move, decrease amount of given rounds
                     numberOfRounds--;
-                    printWinner(currentPlayer);
+                    if (!isTesting){
+                        printWinner(currentPlayer);
+                    }
                     return currentPlayer.equals("X") ? "Player One" : "Player Two";
                 }
             }
-
+            streak = 0;
             //Horizontally left
             for (int i = 1; i < 4; i++){
                 if (col >= 3 && gameBoard[row][col-i].equals(currentPlayer)) streak++;
                 if (streak == 3) {
                     // every move, decrease amount of given rounds
                     numberOfRounds--;
-                    printWinner(currentPlayer);
+                    if (!isTesting){
+                        printWinner(currentPlayer);
+                    }
                     return currentPlayer.equals("X") ? "Player One" : "Player Two";
                 }
             }
+            streak = 0;
 
             //Horizontally right
             for (int i = 1; i < 4; i++){
@@ -158,65 +162,86 @@ public class GameBoard implements GameEngine {
                 if (streak == 3) {
                     // every move, decrease amount of given rounds
                     numberOfRounds--;
-                    printWinner(currentPlayer);
+                    if (!isTesting){
+                        printWinner(currentPlayer);
+                    }
                     return currentPlayer.equals("X") ? "Player One" : "Player Two";
                 }
             }
+            streak = 0;
 
-            //Diagonally down and to the right
+        //Diagonally down and to the right
             for (int i = 1; i < 4; i++){
                 if ((row >= 3 && col <= 3) && (gameBoard[row-i][col+i].equals(currentPlayer))) streak++;
                 if (streak == 3) {
                     // every move, decrease amount of given rounds
                     numberOfRounds--;
-                    printWinner(currentPlayer);
+                    if (!isTesting){
+                        printWinner(currentPlayer);
+                    }
                     return currentPlayer.equals("X") ? "Player One" : "Player Two";
                 }
             }
+        streak = 0;
 
-            //Diagonally down and to the left
+
+        //Diagonally down and to the left
             for (int i = 1; i < 4; i++){
                 if ((row >= 3 && col >= 3)&&gameBoard[row-i][col-i].equals(currentPlayer)) streak++;
                 if (streak == 3) {
                     // every move, decrease amount of given rounds
                     numberOfRounds--;
-                    printWinner(currentPlayer);
+                    if (!isTesting){
+                        printWinner(currentPlayer);
+                    }
                     return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
                 }
             }
 
-            //Diagonally up and to the right
+        streak = 0;
+
+
+        //Diagonally up and to the right
             for (int i = 1; i < 4; i++){
               if ((row < 3 && col <= 3)&&gameBoard[row+i][col+i].equals(currentPlayer)) streak++;
               if (streak == 3) {
                   // every move, decrease amount of given rounds
                   numberOfRounds--;
-                  printWinner(currentPlayer);
+                  if (!isTesting){
+                      printWinner(currentPlayer);
+                  }
                   return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
               }
             }
 
-            //Diagonally up and to the left
+        streak = 0;
+
+        //Diagonally up and to the left
             for (int i = 1; i < 4; i++){
                if ((row < 3 && col >= 3)&&gameBoard[row+i][col-i].equals(currentPlayer)) streak++;
                if (streak == 3) {
                    // every move, decrease amount of given rounds
                    numberOfRounds--;
-                   printWinner(currentPlayer);
+                   if (!isTesting){
+                       printWinner(currentPlayer);
+                   }
                    return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
                }
             }
-
             return "Draw";
     }
 
     @Override
     public void viewReplay() {
-        bufferReader.readFromFile().forEach(System.out::println);
-        resetGameBoard();
+//        bufferReader.readFromFile().forEach(System.out::println);
+//        resetGameBoard();
     }
 
     public void setPlayerOne(boolean playerOne) {
         this.playerOne = playerOne;
+    }
+
+    public void setTesting(boolean testing) {
+        isTesting = testing;
     }
 }
