@@ -9,6 +9,7 @@ import org.example.exceptions.ColumnFullException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,7 @@ public class GameBoard implements GameEngine {
     private ScannerInput scannerInput = new ScannerInput();
     BWriter bufferWriter = new BWriter();
     BReader bufferReader = new BReader();
-    public String replay = "\u001B[36mREPLAY OF LAST ROUND:";
+    public List<String> replay = new ArrayList();
 
     private String[][] gameBoard;
     private boolean playerOne;
@@ -75,43 +76,39 @@ public class GameBoard implements GameEngine {
 
 //         write currentBoard to file.
 //        bufferWriter.writeToFile(gameBoard);
-        /*
-        replay = replay.concat(Arrays
+
+
+        // Snabb, ful lösning som vänder gameboard upponer
+        // men den bli spegelvänd...
+        StringBuilder replayString = new StringBuilder(Arrays
                 .stream(gameBoard)
                 .map(Arrays::toString)
-                .collect(Collectors.joining(System.lineSeparator()))) + "\n\t\n";
-        */
-        replay = replay.concat("\n┌───┬───┬───┬───┬───┬───┬───┐\n");
+                .collect(Collectors.joining(System.lineSeparator())) + "\n\n");
+
+        // Vänd upponer på gameboard o lägg till i listan
+        replay.add(replayString.reverse().toString());
+
 
         System.out.println("\n┌───┬───┬───┬───┬───┬───┬───┐");
         for (int i = gameBoard.length-1; i >= 0; i--) {
-            replay = replay.concat("│ ");
             System.out.print("│ ");
             for (int j = 0; j < gameBoard[i].length ; j++) {
-                replay = replay.concat(gameBoard[i][j] + " │ ");
                 System.out.print(gameBoard[i][j] + " │ ");
             }
-            replay = replay.concat("\n");
             System.out.println();
             if (i >= 1) {
-                replay = replay.concat("├───┼───┼───┼───┼───┼───┼───┤\n");
                 System.out.println("├───┼───┼───┼───┼───┼───┼───┤");
             } else {
-                replay = replay.concat("└───┴───┴───┴───┴───┴───┴───┘\n");
                 System.out.println("└───┴───┴───┴───┴───┴───┴───┘");
             }
         }
     }
 
     public void printWinner(String currentPlayer) {
-        replay = replay.concat("\n┌───────────────────────┐\n");
-        replay = currentPlayer.contentEquals("X") ? replay.concat("├─── PlayerOne Wins! ───┤\n") : replay.concat("├─── PlayerTwo Wins! ───┤\n");
-        replay = replay.concat("└───────────────────────┘\n");
         System.out.println("\n┌───────────────────────┐");
         System.out.println(currentPlayer.contentEquals("X") ? "├─── PlayerOne Wins! ───┤" : "├─── PlayerTwo Wins! ───┤");
         System.out.println("└───────────────────────┘");
         printCurrentBoard();
-        replay = replay.concat("\u001B[0m");
 
         if (currentPlayer.contentEquals("X")) pOneWonRounds++;
         else pTwoWonRounds++;
