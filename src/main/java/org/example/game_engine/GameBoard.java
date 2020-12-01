@@ -17,17 +17,18 @@ public class GameBoard implements GameEngine {
     private String[][] gameBoard;
     private boolean playerOne;
     private String previousMove;
-    private int roundsCounter;
     private int numberOfRounds;
-    private int pOneWonRounds;
-    private int pTwoWonRounds;
-    private boolean isTesting;
+    private int roundsCounter;
+    private int playerOneWinStreak;
+    private int playerTwoWinStreak;
 
     public GameBoard() {
-        this.roundsCounter = 0;
         this.previousMove = "";
-        this.isTesting = false;
         this.playerOne = Math.floor(Math.random() * 2) == 0;
+        this.numberOfRounds = 0;
+        this.roundsCounter = 0;
+        this.playerOneWinStreak = 0;
+        this.playerTwoWinStreak = 0;
         this.gameBoard = new String[][]{
                 {" ", " ", " ", " ", " ", " ", " "},
                 {" ", " ", " ", " ", " ", " ", " "},
@@ -40,65 +41,24 @@ public class GameBoard implements GameEngine {
     public void setNumberOfRounds() {
         System.out.print("Choose number of rounds: ");
         numberOfRounds = scannerInput.getUserInput().nextInt();
-        roundsCounter = 0;
+        roundsCounter = 1;
+        playerTwoWinStreak = 0;
+        playerOneWinStreak = 0;
         play();
     }
 
-    public void resetGameBoard() {
-        this.playerOne = Math.floor(Math.random() * 2) == 0;
-        gameBoard = new String[][]{
-                {" ", " ", " ", " ", " ", " ", " "},
-                {" ", " ", " ", " ", " ", " ", " "},
-                {" ", " ", " ", " ", " ", " ", " "},
-                {" ", " ", " ", " ", " ", " ", " "},
-                {" ", " ", " ", " ", " ", " ", " "},
-                {" ", " ", " ", " ", " ", " ", " "}};
-    }
-
-    public void play() {
-        System.out.println("Round "+(++roundsCounter));
+    public void play(){
+        int currentRound = numberOfRounds;
         while (numberOfRounds > 0) {
+            if (currentRound > numberOfRounds){
+                currentRound--;
+                ++roundsCounter;
+                resetBoard();
+            }
+            System.out.println("[ ROUND "+roundsCounter+" ]");
             System.out.print(playerOne ? "\nPlayerOne, " : "\nPlayerTwo, ");
             System.out.print("Choose your play: ");
-            // Continue round
             makeAMove(scannerInput.getUserInput().nextInt());
-            printCurrentBoard();
-        }
-    }
-
-    public void printCurrentBoard() {
-
-//         write currentBoard to file.
-//        bufferWriter.writeToFile(gameBoard);
-
-        System.out.println("\n┌───┬───┬───┬───┬───┬───┬───┐");
-        for (int i = gameBoard.length-1; i >= 0; i--) {
-            System.out.print("│ ");
-            for (int j = 0; j < gameBoard[i].length ; j++) {
-                System.out.print(gameBoard[i][j] + " │ ");
-            }
-            System.out.println();
-            if (i >= 1) {
-                System.out.println("├───┼───┼───┼───┼───┼───┼───┤");
-            } else {
-                System.out.println("└───┴───┴───┴───┴───┴───┴───┘");
-            }
-        }
-    }
-
-    public void printWinner(String currentPlayer) {
-        System.out.println("\n┌───────────────────────┐");
-        System.out.println(currentPlayer.contentEquals("X") ? "├─── PlayerOne Wins! ───┤" : "├─── PlayerTwo Wins! ───┤");
-        System.out.println("└───────────────────────┘");
-        printCurrentBoard();
-
-        if (currentPlayer.contentEquals("X")) pOneWonRounds++;
-        else pTwoWonRounds++;
-
-        System.out.println("Current score: " + "PlayerOne: " + pOneWonRounds + " PlayerTwo: " + pTwoWonRounds);
-        resetGameBoard();
-        if (numberOfRounds == 0 && !isTesting) {
-            App.startApp();
         }
     }
 
@@ -115,17 +75,64 @@ public class GameBoard implements GameEngine {
                 break;
             }
         }
-        checkWinner();
+        printCurrentBoard();
+        if (!checkWinner().equals("Draw")){
+            numberOfRounds--;
+            printWinner(checkWinner());
+        }
         return gameBoard;
+    }
+
+    public void printWinner(String winner) {
+        System.out.println("\n┌───────────────────────┐");
+        System.out.println(winner.equals("Player One") ? "├─── PlayerOne Wins! ───┤" : "├─── PlayerTwo Wins! ───┤");
+        System.out.println("└───────────────────────┘");
+        printCurrentBoard();
+
+        if (winner.equals("Player One")) playerOneWinStreak++;
+        else playerTwoWinStreak++;
+
+        System.out.println("Current score: " + "PlayerOne: " + playerOneWinStreak + " PlayerTwo: " + playerTwoWinStreak);
+        if (numberOfRounds == 0) {
+            App.startApp();
+            roundsCounter = 0;
+        }
+    }
+
+    private void resetBoard() {
+        this.playerOne = Math.floor(Math.random() * 2) == 0;
+        gameBoard = new String[][]{
+                {" ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " "},
+                {" ", " ", " ", " ", " ", " ", " "}};
+    }
+
+    public void printCurrentBoard() {
+        bufferWriter.writeToFile(gameBoard);
+
+        System.out.println("\n┌───┬───┬───┬───┬───┬───┬───┐");
+        for (int i = gameBoard.length-1; i >= 0; i--) {
+            System.out.print("│ ");
+            for (int j = 0; j < gameBoard[i].length ; j++) {
+                System.out.print(gameBoard[i][j] + " │ ");
+            }
+            System.out.println();
+            if (i >= 1) {
+                System.out.println("├───┼───┼───┼───┼───┼───┼───┤");
+            } else {
+                System.out.println("└───┴───┴───┴───┴───┴───┴───┘");
+            }
+        }
     }
 
     @Override
     public String checkWinner() {
-        //previousMoves
         int row = Integer.parseInt(previousMove.substring(0,1));
         int col = Integer.parseInt(previousMove.substring(1));
 
-        //If playerOne made last move, it's now player two's turn.
         String currentPlayer = playerOne ? "O" : "X";
         int streak = 0;
 
@@ -133,11 +140,7 @@ public class GameBoard implements GameEngine {
             for (int i = 1; i < 4; i++){
                 if (row >= 3 && gameBoard[row-i][col].equals(currentPlayer)) streak++;
                 if (streak == 3) {
-                    // every move, decrease amount of given rounds
-                    numberOfRounds--;
-                    if (!isTesting){
-                        printWinner(currentPlayer);
-                    }
+
                     return currentPlayer.equals("X") ? "Player One" : "Player Two";
                 }
             }
@@ -146,11 +149,6 @@ public class GameBoard implements GameEngine {
             for (int i = 1; i < 4; i++){
                 if (col >= 3 && gameBoard[row][col-i].equals(currentPlayer)) streak++;
                 if (streak == 3) {
-                    // every move, decrease amount of given rounds
-                    numberOfRounds--;
-                    if (!isTesting){
-                        printWinner(currentPlayer);
-                    }
                     return currentPlayer.equals("X") ? "Player One" : "Player Two";
                 }
             }
@@ -160,11 +158,6 @@ public class GameBoard implements GameEngine {
             for (int i = 1; i < 4; i++){
                 if (col <= 3 && gameBoard[row][col+i].equals(currentPlayer)) streak++;
                 if (streak == 3) {
-                    // every move, decrease amount of given rounds
-                    numberOfRounds--;
-                    if (!isTesting){
-                        printWinner(currentPlayer);
-                    }
                     return currentPlayer.equals("X") ? "Player One" : "Player Two";
                 }
             }
@@ -174,26 +167,16 @@ public class GameBoard implements GameEngine {
             for (int i = 1; i < 4; i++){
                 if ((row >= 3 && col <= 3) && (gameBoard[row-i][col+i].equals(currentPlayer))) streak++;
                 if (streak == 3) {
-                    // every move, decrease amount of given rounds
-                    numberOfRounds--;
-                    if (!isTesting){
-                        printWinner(currentPlayer);
-                    }
                     return currentPlayer.equals("X") ? "Player One" : "Player Two";
                 }
             }
-        streak = 0;
+            streak = 0;
 
 
         //Diagonally down and to the left
             for (int i = 1; i < 4; i++){
                 if ((row >= 3 && col >= 3)&&gameBoard[row-i][col-i].equals(currentPlayer)) streak++;
                 if (streak == 3) {
-                    // every move, decrease amount of given rounds
-                    numberOfRounds--;
-                    if (!isTesting){
-                        printWinner(currentPlayer);
-                    }
                     return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
                 }
             }
@@ -205,11 +188,6 @@ public class GameBoard implements GameEngine {
             for (int i = 1; i < 4; i++){
               if ((row < 3 && col <= 3)&&gameBoard[row+i][col+i].equals(currentPlayer)) streak++;
               if (streak == 3) {
-                  // every move, decrease amount of given rounds
-                  numberOfRounds--;
-                  if (!isTesting){
-                      printWinner(currentPlayer);
-                  }
                   return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
               }
             }
@@ -220,11 +198,6 @@ public class GameBoard implements GameEngine {
             for (int i = 1; i < 4; i++){
                if ((row < 3 && col >= 3)&&gameBoard[row+i][col-i].equals(currentPlayer)) streak++;
                if (streak == 3) {
-                   // every move, decrease amount of given rounds
-                   numberOfRounds--;
-                   if (!isTesting){
-                       printWinner(currentPlayer);
-                   }
                    return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
                }
             }
@@ -241,7 +214,5 @@ public class GameBoard implements GameEngine {
         this.playerOne = playerOne;
     }
 
-    public void setTesting(boolean testing) {
-        isTesting = testing;
-    }
+
 }

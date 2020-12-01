@@ -18,7 +18,6 @@ public class GameBoardTest {
     void setUp() {
         gameBoard = new GameBoard();
         gameBoard.setPlayerOne(true);
-        gameBoard.setTesting(true);
     }
 
     @AfterEach
