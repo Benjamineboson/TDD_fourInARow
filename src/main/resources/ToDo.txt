@@ -6,3 +6,4 @@ X Programmet skall spela in alla drag så att man i efterhand kan återskapa fö
 X Det ska gå att spela upp en ”omgång”
 X Man ska kunna välja hur många omgångar som ska spelas. När en spelare har vunnit
   tillräckligt många omgångar ska programmet skriva ut vem som vann.
+- Testa IO

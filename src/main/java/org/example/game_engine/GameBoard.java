@@ -190,9 +190,9 @@ public class GameBoard implements GameEngine {
 
         //Diagonally up and to the right
             for (int i = 1; i < 4; i++){
-              if ((row < 3 && col <= 3)&&gameBoard[row+i][col+i].equals(currentPlayer)) streak++;
-              if (streak == 3) {
-                  return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+                if ((row < 3 && col <= 3)&&gameBoard[row+i][col+i].equals(currentPlayer)) streak++;
+                if (streak == 3) {
+                return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
               }
             }
 
