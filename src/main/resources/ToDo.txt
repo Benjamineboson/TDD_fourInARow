@@ -7,3 +7,4 @@ X Det ska gå att spela upp en ”omgång”
 X Man ska kunna välja hur många omgångar som ska spelas. När en spelare har vunnit
   tillräckligt många omgångar ska programmet skriva ut vem som vann.
 - Testa IO
+- Menyval töm filen "fileName.txt" + döp om den
