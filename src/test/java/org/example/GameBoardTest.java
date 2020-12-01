@@ -338,7 +338,7 @@ public class GameBoardTest {
 
     }
     @Test
-    public void test_file_fileDontExist() {
+    public void test_file_doesntExist() {
 
     }
 
