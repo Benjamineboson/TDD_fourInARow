@@ -11,16 +11,17 @@ public class BWriter {
     String fileName = "fileName.txt";
     String absolutePath = directory + File.separator + fileName;
 
-    public void writeToFile(String[][] gameBoard) {
+    public void writeToFile(String[][] gameBoard,int currentMove, int currentRound) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(absolutePath,true))) {
             StringBuilder builder = new StringBuilder();
+            builder.append("Round: "+currentRound+" Move: "+currentMove+"\n");
             builder.append(("┌───┬───┬───┬───┬───┬───┬───┐\n"));
             for (int i = gameBoard.length-1; i >= 0 ; i--) {
                 for (int j = 0; j < gameBoard[i].length ; j++) {
                     if (j == gameBoard[i].length -1){
                         builder.append("| "+gameBoard[i][j]+" |\n");
                         if (i > 0) builder.append("├───┼───┼───┼───┼───┼───┼───┤\n");
-                        if (i == 0) builder.append("└───┴───┴───┴───┴───┴───┴───┘");
+                        if (i == 0) builder.append("└───┴───┴───┴───┴───┴───┴───┘,");
                     }else{
                         builder.append("| "+gameBoard[i][j]+" ");
                     }

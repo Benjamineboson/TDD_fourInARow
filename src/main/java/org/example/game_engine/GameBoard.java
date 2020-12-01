@@ -19,6 +19,7 @@ public class GameBoard implements GameEngine {
     private String previousMove;
     private int numberOfRounds;
     private int roundsCounter;
+    private int movesCounter;
     private int playerOneWinStreak;
     private int playerTwoWinStreak;
 
@@ -29,6 +30,7 @@ public class GameBoard implements GameEngine {
         this.roundsCounter = 0;
         this.playerOneWinStreak = 0;
         this.playerTwoWinStreak = 0;
+        this.movesCounter = 0;
         this.gameBoard = new String[][]{
                 {" ", " ", " ", " ", " ", " ", " "},
                 {" ", " ", " ", " ", " ", " ", " "},
@@ -72,6 +74,7 @@ public class GameBoard implements GameEngine {
                 gameBoard[i][col] = playerOne ? "X" : "O";
                 previousMove = ""+i+""+col;
                 playerOne = !playerOne;
+                movesCounter++;
                 break;
             }
         }
@@ -101,6 +104,7 @@ public class GameBoard implements GameEngine {
 
     private void resetBoard() {
         this.playerOne = Math.floor(Math.random() * 2) == 0;
+        movesCounter = 0;
         gameBoard = new String[][]{
                 {" ", " ", " ", " ", " ", " ", " "},
                 {" ", " ", " ", " ", " ", " ", " "},
@@ -111,7 +115,7 @@ public class GameBoard implements GameEngine {
     }
 
     public void printCurrentBoard() {
-        bufferWriter.writeToFile(gameBoard);
+        bufferWriter.writeToFile(gameBoard,movesCounter,roundsCounter);
 
         System.out.println("\n┌───┬───┬───┬───┬───┬───┬───┐");
         for (int i = gameBoard.length-1; i >= 0; i--) {
@@ -206,8 +210,11 @@ public class GameBoard implements GameEngine {
 
     @Override
     public void viewReplay() {
-//        bufferReader.readFromFile().forEach(System.out::println);
-//        resetGameBoard();
+        String [] previousRound = bufferReader.readFromFile();
+        for (int i = 0; i < previousRound.length-2; i++) {
+            System.out.println(previousRound[i]);
+        }
+
     }
 
     public void setPlayerOne(boolean playerOne) {
