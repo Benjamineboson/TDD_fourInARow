@@ -29,7 +29,8 @@ public class App
                     gameBoard.setNumberOfRounds();
                     break;
                 case "2":
-                    printBoard(); // will be changed later...
+                    //printBoard(); // will be changed later...
+                    viewReplay();
                     break;
                 case "Q": case "q":
                     System.out.println("Quit...");
@@ -48,6 +49,10 @@ public class App
         System.out.println("1. Play a game of connect four");
         System.out.println("2. View Replay of latest game");
         System.out.println("Q. Exit to desktop");
+    }
+
+    public static void viewReplay() {
+        System.out.println(gameBoard.replay);
     }
 
     // temporary method.....
