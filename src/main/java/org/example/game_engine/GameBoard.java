@@ -47,7 +47,6 @@ public class GameBoard implements GameEngine {
         System.out.print("Choose number of rounds: ");
         numberOfRounds = scannerInput.getUserInput().nextInt();
         roundsCounter = 1;
-        resetBoard();
         playerTwoWinStreak = 0;
         playerOneWinStreak = 0;
         resetBoard();
