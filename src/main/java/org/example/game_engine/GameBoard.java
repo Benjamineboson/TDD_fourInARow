@@ -188,6 +188,10 @@ public class GameBoard implements GameEngine {
                     break;
                 }
             }
+            if (col == 0 || row == 5) {
+                x = col;
+                y = row;
+            }
         }
         System.out.println("X: " + x + "\nY: " + y);
 
@@ -198,7 +202,6 @@ public class GameBoard implements GameEngine {
                 if (gameBoard[y-i][x+i].equals(currentPlayer)) {
                     streak++;
                     System.out.println("Streak: " + streak);
-
                 } else {
                     streak = 0;
                 }
@@ -220,6 +223,10 @@ public class GameBoard implements GameEngine {
                     break;
                 }
             }
+            if (col == 6 || row == 5) {
+                x = col;
+                y = row;
+            }
         }
         System.out.println("X2: " + x + "\nY2: " + y);
 
@@ -239,7 +246,7 @@ public class GameBoard implements GameEngine {
                 }
             }
         }
-
+/*
         playerOneDiagonallyToTheRight = 0;
         playerTwoDiagonallyToTheRight = 0;
         playerOneDiagonallyToTheLeft = 0;
@@ -287,7 +294,7 @@ public class GameBoard implements GameEngine {
             if (playerOneDiagonallyToTheLeft == 3) return "Player One";
             if (playerTwoDiagonallyToTheLeft == 3) return "Player Two";
         }
-
+*/
         return "Draw";
     }
 
