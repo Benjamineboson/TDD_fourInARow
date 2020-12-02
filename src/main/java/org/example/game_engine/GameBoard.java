@@ -165,17 +165,6 @@ public class GameBoard implements GameEngine {
                 }
             }
             streak = 0;
-            //Horizontally total, right + left
-            for (int i = 1; i < 4; i++){
-                int totalStreak = 0;
-                if (col >= 2 && gameBoard[row][col-i].equals(currentPlayer)) streak++;
-                if (col <= 2 && gameBoard[row][col+i].equals(currentPlayer)) streak++;
-                if (totalStreak == 3) {
-                    return currentPlayer.equals("X") ? "Player One" : "Player Two";
-                }
-            }
-
-            streak = 0;
             //Diagonally down and to the right
             for (int i = 1; i < 4; i++){
                 if ((row >= 3 && col <= 3) && (gameBoard[row-i][col+i].equals(currentPlayer))) streak++;
