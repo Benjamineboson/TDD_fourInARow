@@ -54,15 +54,15 @@ public class GameBoard implements GameEngine {
         play();
     }
 
-    public void play(){
+    public void play() {
         int currentRound = numberOfRounds;
         while (numberOfRounds > 0) {
-            if (currentRound > numberOfRounds){
+            if (currentRound > numberOfRounds) {
                 currentRound--;
                 ++roundsCounter;
                 resetBoard();
             }
-            System.out.println("[ ROUND "+roundsCounter+" ]");
+            System.out.println("[ ROUND " + roundsCounter + " ]");
             System.out.print(playerOne ? "\nPlayerOne, " : "\nPlayerTwo, ");
             System.out.print("Choose your play: ");
             makeAMove(scannerInput.getUserInput().nextInt());
@@ -71,20 +71,20 @@ public class GameBoard implements GameEngine {
 
     @Override
     public String[][] makeAMove(int col) {
-        if (col > gameBoard[0].length-1 || col < 0) throw new IndexOutOfBoundsException();
+        if (col > gameBoard[0].length - 1 || col < 0) throw new IndexOutOfBoundsException();
         if (!gameBoard[5][col].equals(" ")) throw new ColumnFullException("This column is full");
 
         for (int i = 0; i < gameBoard.length; i++) {
             if (gameBoard[i][col].equals(" ")) {
                 gameBoard[i][col] = playerOne ? "X" : "O";
-                previousMove = ""+i+""+col;
+                previousMove = "" + i + "" + col;
                 playerOne = !playerOne;
                 movesCounter++;
                 break;
             }
         }
         printCurrentBoard();
-        if (!checkWinner().equals("Draw")){
+        if (!checkWinner().equals("Draw")) {
             numberOfRounds--;
             printWinner(checkWinner());
         }
@@ -119,11 +119,11 @@ public class GameBoard implements GameEngine {
     }
 
     public void printCurrentBoard() {
-        bufferWriter.writeToFile(gameBoard,movesCounter,roundsCounter);
+        bufferWriter.writeToFile(gameBoard, movesCounter, roundsCounter);
         System.out.println("\n┌───┬───┬───┬───┬───┬───┬───┐");
-        for (int i = gameBoard.length-1; i >= 0; i--) {
+        for (int i = gameBoard.length - 1; i >= 0; i--) {
             System.out.print("│ ");
-            for (int j = 0; j < gameBoard[i].length ; j++) {
+            for (int j = 0; j < gameBoard[i].length; j++) {
                 System.out.print(gameBoard[i][j] + " │ ");
             }
             System.out.println();
@@ -137,69 +137,69 @@ public class GameBoard implements GameEngine {
 
     @Override
     public String checkWinner() {
-        int row = Integer.parseInt(previousMove.substring(0,1));
+        int row = Integer.parseInt(previousMove.substring(0, 1));
         int col = Integer.parseInt(previousMove.substring(1));
         String currentPlayer = playerOne ? "O" : "X";
         int streak = 0;
 
-            // Vertically down
-            for (int i = 1; i < 4; i++){
-                if (row >= 3 && gameBoard[row-i][col].equals(currentPlayer)) streak++;
-                if (streak == 3) {
-                    return currentPlayer.equals("X") ? "Player One" : "Player Two";
-                }
+        // Vertically down
+        for (int i = 1; i < 4; i++) {
+            if (row >= 3 && gameBoard[row - i][col].equals(currentPlayer)) streak++;
+            if (streak == 3) {
+                return currentPlayer.equals("X") ? "Player One" : "Player Two";
             }
-            streak = 0;
-            //Horizontally total
-            for (int i = 0; i < 7; i++){
-                if (gameBoard[row][i].equals(currentPlayer)) {
-                    streak++;
-                } else {
-                    streak = 0;
-                }
-                if (streak == 4) {
-                    return currentPlayer.equals("X") ? "Player One" : "Player Two";
-                }
+        }
+        streak = 0;
+        //Horizontally total
+        for (int i = 0; i < 7; i++) {
+            if (gameBoard[row][i].equals(currentPlayer)) {
+                streak++;
+            } else {
+                streak = 0;
             }
-            streak = 0;
-            //Diagonally down and to the right
-            for (int i = 1; i < 4; i++){
-                if ((row >= 3 && col <= 3) && (gameBoard[row-i][col+i].equals(currentPlayer))) streak++;
-                if (streak == 3) {
-                    return currentPlayer.equals("X") ? "Player One" : "Player Two";
-                }
+            if (streak == 4) {
+                return currentPlayer.equals("X") ? "Player One" : "Player Two";
             }
-            streak = 0;
-            //Diagonally down and to the left
-            for (int i = 1; i < 4; i++){
-                if ((row >= 3 && col >= 3)&&gameBoard[row-i][col-i].equals(currentPlayer)) streak++;
-                if (streak == 3) {
-                    return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
-                }
+        }
+        streak = 0;
+        //Diagonally down and to the right
+        for (int i = 1; i < 4; i++) {
+            if ((row >= 3 && col <= 3) && (gameBoard[row - i][col + i].equals(currentPlayer))) streak++;
+            if (streak == 3) {
+                return currentPlayer.equals("X") ? "Player One" : "Player Two";
             }
-            streak = 0;
-            //Diagonally up and to the right
-            for (int i = 1; i < 4; i++){
-                if ((row < 3 && col <= 3)&&gameBoard[row+i][col+i].equals(currentPlayer)) streak++;
-                if (streak == 3) {
-                    return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
-                }
+        }
+        streak = 0;
+        //Diagonally down and to the left
+        for (int i = 1; i < 4; i++) {
+            if ((row >= 3 && col >= 3) && gameBoard[row - i][col - i].equals(currentPlayer)) streak++;
+            if (streak == 3) {
+                return currentPlayer.equals("X") ? "Player One" : "Player Two";
             }
-            streak = 0;
-            //Diagonally up and to the left
-            for (int i = 1; i < 4; i++){
-               if ((row < 3 && col >= 3)&&gameBoard[row+i][col-i].equals(currentPlayer)) streak++;
-               if (streak == 3) {
-                   return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
-               }
+        }
+        streak = 0;
+        //Diagonally up and to the right
+        for (int i = 1; i < 4; i++) {
+            if ((row < 3 && col <= 3) && gameBoard[row + i][col + i].equals(currentPlayer)) streak++;
+            if (streak == 3) {
+                return currentPlayer.equals("X") ? "Player One" : "Player Two";
             }
-            return "Draw";
+        }
+        streak = 0;
+        //Diagonally up and to the left
+        for (int i = 1; i < 4; i++) {
+            if ((row < 3 && col >= 3) && gameBoard[row + i][col - i].equals(currentPlayer)) streak++;
+            if (streak == 3) {
+                return currentPlayer.equals("X") ? "Player One" : "Player Two";
+            }
+        }
+        return "Draw";
     }
 
     @Override
     public void viewReplay() {
-        String [] previousRound = bufferReader.readFromFile();
-        for (int i = 0; i < previousRound.length-2; i++) {
+        String[] previousRound = bufferReader.readFromFile();
+        for (int i = 0; i < previousRound.length - 2; i++) {
             System.out.println(previousRound[i]);
         }
         System.out.println("Press ENTER to continue...");
@@ -211,7 +211,7 @@ public class GameBoard implements GameEngine {
         String result = Files.notExists(path) ? "There is no Replay to delete" : "Replay was deleted";
         try {
             Files.deleteIfExists(path);
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
         System.out.println(result.toUpperCase());
