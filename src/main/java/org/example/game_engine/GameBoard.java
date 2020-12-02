@@ -47,6 +47,7 @@ public class GameBoard implements GameEngine {
         System.out.print("Choose number of rounds: ");
         numberOfRounds = scannerInput.getUserInput().nextInt();
         roundsCounter = 1;
+        resetBoard();
         playerTwoWinStreak = 0;
         playerOneWinStreak = 0;
         resetBoard();
@@ -149,18 +150,14 @@ public class GameBoard implements GameEngine {
                 }
             }
             streak = 0;
-            //Horizontally left
-            for (int i = 1; i < 4; i++){
-                if (col >= 3 && gameBoard[row][col-i].equals(currentPlayer)) streak++;
-                if (streak == 3) {
-                    return currentPlayer.equals("X") ? "Player One" : "Player Two";
+            //Horizontally total
+            for (int i = 0; i < 7; i++){
+                if (gameBoard[row][i].equals(currentPlayer)) {
+                    streak++;
+                } else {
+                    streak = 0;
                 }
-            }
-            streak = 0;
-            //Horizontally right
-            for (int i = 1; i < 4; i++){
-                if (col <= 3 && gameBoard[row][col+i].equals(currentPlayer)) streak++;
-                if (streak == 3) {
+                if (streak == 4) {
                     return currentPlayer.equals("X") ? "Player One" : "Player Two";
                 }
             }
