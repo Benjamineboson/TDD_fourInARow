@@ -23,6 +23,9 @@ public class App {
                 case "2":
                     gameBoard.viewReplay();
                     break;
+                case "3":
+                    gameBoard.deleteReplay();
+                    break;
                 case "Q": case "q":
                     System.out.println("Quit...");
                     scannerInput.getUserInput().close();
@@ -38,7 +41,8 @@ public class App {
         System.out.println("Connect four - the Game ");
         System.out.println("\nMain Menu:");
         System.out.println("1. Play a game of connect four");
-        System.out.println("2. View Replay of latest game");
+        System.out.println("2. View Replay of latest games");
+        System.out.println("3. Delete Replay of latest games");
         System.out.println("Q. Exit to desktop");
     }
 }

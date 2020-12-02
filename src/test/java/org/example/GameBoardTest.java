@@ -403,12 +403,34 @@ public class GameBoardTest {
     }
 
     @Test
-    public void test_fileIsEmpty() {
+    public void test_deleteFile() {
+        String [][] board = {
+                {" "," "," "," "," "," ","X"},
+                {" "," "," "," "," "," ","X"},
+                {" "," "," "," "," "," ","X"},
+                {" "," "," "," "," "," ","X"},
+                {" "," "," "," "," "," ","X"},
+                {" "," "," "," "," "," ","X"}};
 
+        Path path = Paths.get("src/main/resources/fileName.txt");
+        bWriter.writeToFile(board, 1, 1);
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        assertTrue(Files.notExists(path));
     }
 
     @Test
-    public void test_deleteFile() {
-
+    public void test_noFileToDelete() {
+        Path path = Paths.get("src/main/resources/fileName.txt");
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        String expected = "There is no Replay to delete";
+        assertEquals(expected, gameBoard.deleteReplay());
     }
 }

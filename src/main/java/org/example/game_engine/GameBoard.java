@@ -6,6 +6,12 @@ import org.example.IO_utils.BWriter;
 import org.example.IO_utils.ScannerInput;
 import org.example.exceptions.ColumnFullException;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class GameBoard implements GameEngine {
 
     private ScannerInput scannerInput = new ScannerInput();
@@ -199,7 +205,23 @@ public class GameBoard implements GameEngine {
         for (int i = 0; i < previousRound.length-2; i++) {
             System.out.println(previousRound[i]);
         }
+        System.out.println("Press ENTER to continue...");
     }
+
+    @Override
+    public String deleteReplay() {
+        Path path = Paths.get("src/main/resources/fileName.txt");
+        String result = Files.notExists(path) ? "There is no Replay to delete" : "Replay was deleted";
+        try {
+            Files.deleteIfExists(path);
+        }catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println(result.toUpperCase());
+        System.out.println("Press ENTER to continue...");
+        return result;
+    }
+
     // Used by tests
     public void setPlayerOne(boolean playerOne) {
         this.playerOne = playerOne;
