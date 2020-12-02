@@ -25,6 +25,10 @@ public class GameBoard implements GameEngine {
     private int movesCounter;
     private int playerOneWinStreak;
     private int playerTwoWinStreak;
+    private int playerOneDiagonallyToTheRight;
+    private int playerTwoDiagonallyToTheRight;
+    private int playerOneDiagonallyToTheLeft;
+    private int playerTwoDiagonallyToTheLeft;
 
     public GameBoard() {
         this.previousMove = "";
@@ -34,6 +38,11 @@ public class GameBoard implements GameEngine {
         this.playerOneWinStreak = 0;
         this.playerTwoWinStreak = 0;
         this.movesCounter = 0;
+        this.playerOneDiagonallyToTheRight = 0;
+        this.playerTwoDiagonallyToTheRight = 0;
+        this.playerOneDiagonallyToTheLeft = 0;
+        this.playerTwoDiagonallyToTheLeft = 0;
+
         this.gameBoard = new String[][]{
                 {" ", " ", " ", " ", " ", " ", " "},
                 {" ", " ", " ", " ", " ", " ", " "},
@@ -49,6 +58,10 @@ public class GameBoard implements GameEngine {
         roundsCounter = 1;
         playerTwoWinStreak = 0;
         playerOneWinStreak = 0;
+        playerOneDiagonallyToTheRight = 0;
+        playerTwoDiagonallyToTheRight = 0;
+        playerOneDiagonallyToTheLeft = 0;
+        playerTwoDiagonallyToTheLeft = 0;
         resetBoard();
         play();
     }
@@ -140,7 +153,7 @@ public class GameBoard implements GameEngine {
         int col = Integer.parseInt(previousMove.substring(1));
         String currentPlayer = playerOne ? "O" : "X";
         int streak = 0;
-
+        
         // Vertically down
         for (int i = 1; i < 4; i++) {
             if (row >= 3 && gameBoard[row - i][col].equals(currentPlayer)) streak++;
@@ -160,38 +173,127 @@ public class GameBoard implements GameEngine {
                 return currentPlayer.equals("X") ? "Player One" : "Player Two";
             }
         }
-        streak = 0;
-        //Diagonally down and to the right
-        for (int i = 1; i < 4; i++) {
-            if ((row >= 3 && col <= 3) && (gameBoard[row - i][col + i].equals(currentPlayer))) streak++;
-            if (streak == 3) {
-                return currentPlayer.equals("X") ? "Player One" : "Player Two";
+
+
+
+        //Diagonally from top left, get starting point
+        int x = 0;
+        int y = 0;
+        for (int i = 1; i < 6; i++) {
+            if (col != 0 && row != 5){
+                if (col - i == 0 || row + i == 5) {
+                    x = col - i;
+                    y = row + i;
+                    break;
+                }
+            }
+            if (col == 0 || row == 5) {
+                x = col;
+                y = row;
             }
         }
-        streak = 0;
+        System.out.println("X: " + x + "\nY: " + y);
+
+        //Start checking from top left
+        for (int i = 0; i < 7; i++) {
+            if ((x+i) < 7 && (y-i) > -1) {
+                System.out.println((x+i) +" " + (y-i));
+                if (gameBoard[y-i][x+i].equals(currentPlayer)) {
+                    streak++;
+                    System.out.println("Streak: " + streak);
+                } else {
+                    streak = 0;
+                }
+                if (streak == 4) {
+                    return currentPlayer.equals("X") ? "Player One" : "Player Two";
+                }
+            }
+        }
+
+
+        //Diagonally from top right, get starting point
+        x = 0;
+        y = 0;
+        for (int i = 1; i < 6; i++) {
+            if (col != 6 && row != 5){
+                if (col + i == 6 || row + i == 5) {
+                    x = col + i;
+                    y = row + i;
+                    break;
+                }
+            }
+            if (col == 6 || row == 5) {
+                x = col;
+                y = row;
+            }
+        }
+        System.out.println("X2: " + x + "\nY2: " + y);
+
+        //Start checking from top right
+        for (int i = 0; i < 7; i++) {
+            if ((x-i) > -1 && (y-i) > -1) {
+                System.out.println((x-i) + " " + (y-i));
+                if (gameBoard[y-i][x-i].equals(currentPlayer)) {
+                    streak++;
+                    System.out.println("Streak: " + streak);
+
+                } else {
+                    streak = 0;
+                }
+                if (streak == 4) {
+                    return currentPlayer.equals("X") ? "Player One" : "Player Two";
+                }
+            }
+        }
+/*
+        playerOneDiagonallyToTheRight = 0;
+        playerTwoDiagonallyToTheRight = 0;
+        playerOneDiagonallyToTheLeft = 0;
+        playerTwoDiagonallyToTheLeft = 0;
+
         //Diagonally down and to the left
         for (int i = 1; i < 4; i++) {
-            if ((row >= 3 && col >= 3) && gameBoard[row - i][col - i].equals(currentPlayer)) streak++;
-            if (streak == 3) {
-                return currentPlayer.equals("X") ? "Player One" : "Player Two";
+
+            if ((row >= 3 && col >= 3) && gameBoard[row - i][col - i].equals(currentPlayer)){
+                if (currentPlayer.equals("X")) playerOneDiagonallyToTheRight++;
+                if (currentPlayer.equals("O")) {
+                    System.out.println("here! streak: " + playerTwoDiagonallyToTheRight);
+                    playerTwoDiagonallyToTheRight++;
+                }
+            }
+            if (playerOneDiagonallyToTheRight == 3) return "Player One";
+            if (playerTwoDiagonallyToTheRight == 3) {
+                return "Player Two";
             }
         }
-        streak = 0;
         //Diagonally up and to the right
         for (int i = 1; i < 4; i++) {
-            if ((row < 3 && col <= 3) && gameBoard[row + i][col + i].equals(currentPlayer)) streak++;
-            if (streak == 3) {
-                return currentPlayer.equals("X") ? "Player One" : "Player Two";
+            if ((row < 3 && col <= 3) && gameBoard[row + i][col + i].equals(currentPlayer)){
+                if (currentPlayer.equals("X")) playerOneDiagonallyToTheRight++;
+                if (currentPlayer.equals("O")) playerTwoDiagonallyToTheRight++;
             }
+            if (playerOneDiagonallyToTheRight == 3) return "Player One";
+            if (playerTwoDiagonallyToTheRight == 3) return "Player Two";
         }
-        streak = 0;
         //Diagonally up and to the left
         for (int i = 1; i < 4; i++) {
-            if ((row < 3 && col >= 3) && gameBoard[row + i][col - i].equals(currentPlayer)) streak++;
-            if (streak == 3) {
-                return currentPlayer.equals("X") ? "Player One" : "Player Two";
+            if ((row < 3 && col >= 3) && gameBoard[row + i][col - i].equals(currentPlayer)){
+                if (currentPlayer.equals("X")) playerOneDiagonallyToTheLeft++;
+                if (currentPlayer.equals("O")) playerTwoDiagonallyToTheLeft++;
             }
+            if (playerOneDiagonallyToTheLeft == 3) return "Player One";
+            if (playerTwoDiagonallyToTheLeft == 3) return "Player Two";
         }
+        //Diagonally down and to the right
+        for (int i = 1; i < 4; i++) {
+            if ((row >= 3 && col <= 3) && (gameBoard[row - i][col + i].equals(currentPlayer))){
+                if (currentPlayer.equals("X")) playerOneDiagonallyToTheLeft++;
+                if (currentPlayer.equals("O")) playerTwoDiagonallyToTheLeft++;
+            }
+            if (playerOneDiagonallyToTheLeft == 3) return "Player One";
+            if (playerTwoDiagonallyToTheLeft == 3) return "Player Two";
+        }
+*/
         return "Draw";
     }
 
