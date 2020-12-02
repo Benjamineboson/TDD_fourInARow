@@ -21,6 +21,7 @@ public class GameBoardTest {
     private GameBoard gameBoard;
     private BReader bReader;
     private BWriter bWriter;
+    private Path pathToFile;
 
     @BeforeEach
     void setUp() throws IOException {
@@ -28,7 +29,7 @@ public class GameBoardTest {
         gameBoard.setPlayerOne(true);
         bReader = new BReader();
         bWriter = new BWriter();
-        Path pathToFile = Paths.get("src/main/resources/fileName.txt");
+        pathToFile = Paths.get("src/main/resources/Replay.txt");
         try {
             Files.deleteIfExists(pathToFile);
         } catch (FileNotFoundException ex) {
@@ -41,6 +42,7 @@ public class GameBoardTest {
         gameBoard = null;
         bReader = null;
         bWriter = null;
+        pathToFile = null;
     }
 
     // --------------------------------------- makeAMove() ---------------------------------------
@@ -353,11 +355,10 @@ public class GameBoardTest {
                 {" "," "," "," "," "," "," "},
                 {" "," "," "," "," "," "," "},
                 {" "," "," "," "," "," "," "}};
-        Path path = Paths.get("src/main/resources/fileName.txt");
 
-        assertTrue(Files.notExists(path));
+        assertTrue(Files.notExists(pathToFile));
         bWriter.writeToFile(board, 1, 1);
-        assertTrue(Files.exists(path));
+        assertTrue(Files.exists(pathToFile));
     }
 
     @Test
@@ -385,20 +386,18 @@ public class GameBoardTest {
                 "|   |   |   |   |   |   | X |\n" +
                 "└───┴───┴───┴───┴───┴───┴───┘,\n";
 
-        Path path = Paths.get("src/main/resources/fileName.txt");
         bWriter.writeToFile(board, 1, 1);
-        assertEquals(expected, Files.readString(path));
+        assertEquals(expected, Files.readString(pathToFile));
     }
 
     @Test
     public void test_read_file_doesntExist() {
-        Path path = Paths.get("src/main/resources/fileName.txt");
         try {
-            Files.deleteIfExists(path);
+            Files.deleteIfExists(pathToFile);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        assertTrue(Files.notExists(path));
+        assertTrue(Files.notExists(pathToFile));
         assertNotNull(bReader.readFromFile());
     }
 
@@ -412,21 +411,19 @@ public class GameBoardTest {
                 {" "," "," "," "," "," ","X"},
                 {" "," "," "," "," "," ","X"}};
 
-        Path path = Paths.get("src/main/resources/fileName.txt");
         bWriter.writeToFile(board, 1, 1);
         try {
-            Files.deleteIfExists(path);
+            Files.deleteIfExists(pathToFile);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        assertTrue(Files.notExists(path));
+        assertTrue(Files.notExists(pathToFile));
     }
 
     @Test
     public void test_noFileToDelete() {
-        Path path = Paths.get("src/main/resources/fileName.txt");
         try {
-            Files.deleteIfExists(path);
+            Files.deleteIfExists(pathToFile);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

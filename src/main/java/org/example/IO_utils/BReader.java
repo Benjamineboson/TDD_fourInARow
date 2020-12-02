@@ -10,7 +10,7 @@ public class BReader {
     String history = "";
 
     public String[] readFromFile() {
-        String fileName =  "fileName.txt";
+        String fileName =  "Replay.txt";
         String absolutePath = directory + File.separator + fileName;
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(absolutePath))) {
             String line = "";

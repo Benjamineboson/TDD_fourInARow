@@ -6,7 +6,6 @@ import org.example.IO_utils.BWriter;
 import org.example.IO_utils.ScannerInput;
 import org.example.exceptions.ColumnFullException;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -50,6 +49,7 @@ public class GameBoard implements GameEngine {
         roundsCounter = 1;
         playerTwoWinStreak = 0;
         playerOneWinStreak = 0;
+        resetBoard();
         play();
     }
 
@@ -164,6 +164,17 @@ public class GameBoard implements GameEngine {
                     return currentPlayer.equals("X") ? "Player One" : "Player Two";
                 }
             }
+            streak = 0;
+            //Horizontally total, right + left
+            for (int i = 1; i < 4; i++){
+                int totalStreak = 0;
+                if (col >= 2 && gameBoard[row][col-i].equals(currentPlayer)) streak++;
+                if (col <= 2 && gameBoard[row][col+i].equals(currentPlayer)) streak++;
+                if (totalStreak == 3) {
+                    return currentPlayer.equals("X") ? "Player One" : "Player Two";
+                }
+            }
+
             streak = 0;
             //Diagonally down and to the right
             for (int i = 1; i < 4; i++){

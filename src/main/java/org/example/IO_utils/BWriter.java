@@ -8,7 +8,7 @@ import java.io.IOException;
 public class BWriter {
 
     String directory = "src/main/resources";
-    String fileName = "fileName.txt";
+    String fileName = "Replay.txt";
     String absolutePath = directory + File.separator + fileName;
 
     public void writeToFile(String[][] gameBoard,int currentMove, int currentRound) {
