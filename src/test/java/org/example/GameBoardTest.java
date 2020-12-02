@@ -1,23 +1,43 @@
 package org.example;
 
+import org.example.IO_utils.BReader;
+import org.example.IO_utils.BWriter;
 import org.example.exceptions.ColumnFullException;
 import org.example.game_engine.GameBoard;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameBoardTest {
 
     private GameBoard gameBoard;
+    private BReader bReader;
+    private BWriter bWriter;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         gameBoard = new GameBoard();
         gameBoard.setPlayerOne(true);
+
+        bReader = new BReader();
+        bWriter = new BWriter();
+        Path pathToFile = Paths.get("src/main/resources/fileName.txt");
+        try {
+            Files.deleteIfExists(pathToFile);
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @AfterEach
@@ -330,17 +350,66 @@ public class GameBoardTest {
 
     @Test
     public void test_file_created() {
+        String [][] board = {
+                {" "," "," "," "," "," ","X"},
+                {" "," "," "," "," "," "," "},
+                {" "," "," "," "," "," "," "},
+                {" "," "," "," "," "," "," "},
+                {" "," "," "," "," "," "," "},
+                {" "," "," "," "," "," "," "}};
+        Path path = Paths.get("src/main/resources/fileName.txt");
+
+        assertTrue(Files.notExists(path));
+
+        bWriter.writeToFile(board, 1, 1);
+        assertTrue(Files.exists(path));
+
 
     }
 
     @Test
-    public void test_read_file() {
+    public void test_read_file() throws IOException {
+        String [][] board = {
+                {" "," "," "," "," "," ","X"},
+                {" "," "," "," "," "," "," "},
+                {" "," "," "," "," "," "," "},
+                {" "," "," "," "," "," "," "},
+                {" "," "," "," "," "," "," "},
+                {" "," "," "," "," "," "," "}};
 
+        String expected = "Round: 1 Move: 1\n" +
+                "┌───┬───┬───┬───┬───┬───┬───┐\n" +
+                "|   |   |   |   |   |   |   |\n" +
+                "├───┼───┼───┼───┼───┼───┼───┤\n" +
+                "|   |   |   |   |   |   |   |\n" +
+                "├───┼───┼───┼───┼───┼───┼───┤\n" +
+                "|   |   |   |   |   |   |   |\n" +
+                "├───┼───┼───┼───┼───┼───┼───┤\n" +
+                "|   |   |   |   |   |   |   |\n" +
+                "├───┼───┼───┼───┼───┼───┼───┤\n" +
+                "|   |   |   |   |   |   |   |\n" +
+                "├───┼───┼───┼───┼───┼───┼───┤\n" +
+                "|   |   |   |   |   |   | X |\n" +
+                "└───┴───┴───┴───┴───┴───┴───┘,\n";
+
+        Path path = Paths.get("src/main/resources/fileName.txt");
+        bWriter.writeToFile(board, 1, 1);
+
+        assertEquals(expected, Files.readString(path));
     }
 
     @Test
-    public void test_file_doesntExist() {
+    public void test_read_file_doesntExist() {
+        Path path = Paths.get("src/main/resources/fileName.txt");
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
+        assertTrue(Files.notExists(path));
+
+        assertNotNull(bReader.readFromFile());
     }
 
     @Test
