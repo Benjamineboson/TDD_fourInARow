@@ -175,14 +175,90 @@ public class GameBoard implements GameEngine {
             }
         }
 
+
+
+        //Diagonally from top left, get starting point
+        int x = 0;
+        int y = 0;
+        for (int i = 1; i < 6; i++) {
+            if (col != 0 && row != 5){
+                if (col - i == 0 || row + i == 5) {
+                    x = col - i;
+                    y = row + i;
+                    break;
+                }
+            }
+        }
+        System.out.println("X: " + x + "\nY: " + y);
+
+        //Start checking from top left
+        for (int i = 0; i < 7; i++) {
+            if ((x+i) < 7 && (y-i) > -1) {
+                System.out.println((x+i) +" " + (y-i));
+                if (gameBoard[y-i][x+i].equals(currentPlayer)) {
+                    streak++;
+                    System.out.println("Streak: " + streak);
+
+                } else {
+                    streak = 0;
+                }
+                if (streak == 4) {
+                    return currentPlayer.equals("X") ? "Player One" : "Player Two";
+                }
+            }
+        }
+
+
+        //Diagonally from top right, get starting point
+        x = 0;
+        y = 0;
+        for (int i = 1; i < 6; i++) {
+            if (col != 6 && row != 5){
+                if (col + i == 6 || row + i == 5) {
+                    x = col + i;
+                    y = row + i;
+                    break;
+                }
+            }
+        }
+        System.out.println("X2: " + x + "\nY2: " + y);
+
+        //Start checking from top right
+        for (int i = 0; i < 7; i++) {
+            if ((x-i) > -1 && (y-i) > -1) {
+                System.out.println((x-i) + " " + (y-i));
+                if (gameBoard[y-i][x-i].equals(currentPlayer)) {
+                    streak++;
+                    System.out.println("Streak: " + streak);
+
+                } else {
+                    streak = 0;
+                }
+                if (streak == 4) {
+                    return currentPlayer.equals("X") ? "Player One" : "Player Two";
+                }
+            }
+        }
+
+        playerOneDiagonallyToTheRight = 0;
+        playerTwoDiagonallyToTheRight = 0;
+        playerOneDiagonallyToTheLeft = 0;
+        playerTwoDiagonallyToTheLeft = 0;
+
         //Diagonally down and to the left
         for (int i = 1; i < 4; i++) {
+
             if ((row >= 3 && col >= 3) && gameBoard[row - i][col - i].equals(currentPlayer)){
                 if (currentPlayer.equals("X")) playerOneDiagonallyToTheRight++;
-                if (currentPlayer.equals("O")) playerTwoDiagonallyToTheRight++;
+                if (currentPlayer.equals("O")) {
+                    System.out.println("here! streak: " + playerTwoDiagonallyToTheRight);
+                    playerTwoDiagonallyToTheRight++;
+                }
             }
             if (playerOneDiagonallyToTheRight == 3) return "Player One";
-            if (playerTwoDiagonallyToTheRight == 3) return "Player Two";
+            if (playerTwoDiagonallyToTheRight == 3) {
+                return "Player Two";
+            }
         }
         //Diagonally up and to the right
         for (int i = 1; i < 4; i++) {
@@ -211,6 +287,7 @@ public class GameBoard implements GameEngine {
             if (playerOneDiagonallyToTheLeft == 3) return "Player One";
             if (playerTwoDiagonallyToTheLeft == 3) return "Player Two";
         }
+
         return "Draw";
     }
 
