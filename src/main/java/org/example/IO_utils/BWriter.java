@@ -14,6 +14,7 @@ public class BWriter {
     public void writeToFile(String[][] gameBoard,int currentMove, int currentRound) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(absolutePath,true))) {
             StringBuilder builder = new StringBuilder();
+            if (currentRound == 0) builder.append("----- Created From Test -----\n");
             builder.append("Round: "+currentRound+" Move: "+currentMove+"\n");
             builder.append(("┌───┬───┬───┬───┬───┬───┬───┐\n"));
             for (int i = gameBoard.length-1; i >= 0 ; i--) {

@@ -3,18 +3,10 @@ package org.example;
 import org.example.IO_utils.ScannerInput;
 import org.example.game_engine.GameBoard;
 
-import java.util.Scanner;
-
-/**
- * Hello world!
- *
- */
-public class App 
-{
+public class App {
     static ScannerInput scannerInput = new ScannerInput();
     static GameBoard gameBoard = new GameBoard();
     static boolean keepRun = true;
-
 
     public static void main( String[] args ) {
         startApp();
@@ -29,7 +21,7 @@ public class App
                     gameBoard.setNumberOfRounds();
                     break;
                 case "2":
-                    gameBoard.viewReplay(); // will be changed later...
+                    gameBoard.viewReplay();
                     break;
                 case "Q": case "q":
                     System.out.println("Quit...");
@@ -49,44 +41,4 @@ public class App
         System.out.println("2. View Replay of latest game");
         System.out.println("Q. Exit to desktop");
     }
-
-//    // temporary method.....
-//    public static void printBoard() {
-//            String [][] arr = new String[6][7];
-//            for (int i = 0; i < 7; i++) {
-//                if (i%2 == 0) arr = gameBoard.makeAMove(0);
-//                else arr = gameBoard.makeAMove(1);
-//            }
-//            System.out.println(gameBoard.checkWinner());
-//            for (int i = arr.length-1; i >= 0; i--) {
-//                System.out.print("| ");
-//                for (int j = 0; j < arr[i].length ; j++) {
-//                    System.out.print(arr[i][j] + " | ");
-//                }
-//                System.out.println();
-//                System.out.println("-----------------------------");
-//            }
-//
-//            System.out.println("┌───┬───┬───┬───┬───┬───┬───┐");
-//            for (int i = arr.length-1; i >= 0; i--) {
-//                System.out.print("│ ");
-//                for (int j = 0; j < arr[i].length ; j++) {
-//                    System.out.print(arr[i][j] + " │ ");
-//                }
-//                System.out.println();
-//                if (i >= 1) {
-//                    System.out.println("├───┼───┼───┼───┼───┼───┼───┤");
-//                } else {
-//                    System.out.println("└───┴───┴───┴───┴───┴───┴───┘");
-//                }
-//            }
-//
-//            String anotherBoardStyle =
-//                    "╔═══╦═══╦═══╦═══╦═══╦═══╦═══╗\n" +
-//                            "║   ║ X ║   ║   ║   ║   ║   ║\n" +
-//                            "╠═══╬═══╬═══╬═══╬═══╬═══╬═══╣\n" +
-//                            "║   ║ X ║ O ║   ║   ║   ║   ║\n" +
-//                            "╚═══╩═══╩═══╩═══╩═══╩═══╩═══╝\n";
-//            System.out.println(anotherBoardStyle);
-//        }
 }

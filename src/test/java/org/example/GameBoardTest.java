@@ -5,17 +5,14 @@ import org.example.IO_utils.BWriter;
 import org.example.exceptions.ColumnFullException;
 import org.example.game_engine.GameBoard;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,7 +26,6 @@ public class GameBoardTest {
     void setUp() throws IOException {
         gameBoard = new GameBoard();
         gameBoard.setPlayerOne(true);
-
         bReader = new BReader();
         bWriter = new BWriter();
         Path pathToFile = Paths.get("src/main/resources/fileName.txt");
@@ -43,6 +39,8 @@ public class GameBoardTest {
     @AfterEach
     void tearDown() {
         gameBoard = null;
+        bReader = null;
+        bWriter = null;
     }
 
     // --------------------------------------- makeAMove() ---------------------------------------
@@ -324,7 +322,6 @@ public class GameBoardTest {
         String expectedWinner = "Player Two";
         assertArrayEquals(expected,gameBoard.makeAMove(0));
         assertEquals(expectedWinner,gameBoard.checkWinner());
-
     }
 
     @Test
@@ -345,7 +342,6 @@ public class GameBoardTest {
         assertEquals(expectedWinner,gameBoard.checkWinner());
     }
 
-
     // --------------------------------------- viewReplay() ---------------------------------------
 
     @Test
@@ -360,11 +356,8 @@ public class GameBoardTest {
         Path path = Paths.get("src/main/resources/fileName.txt");
 
         assertTrue(Files.notExists(path));
-
         bWriter.writeToFile(board, 1, 1);
         assertTrue(Files.exists(path));
-
-
     }
 
     @Test
@@ -394,7 +387,6 @@ public class GameBoardTest {
 
         Path path = Paths.get("src/main/resources/fileName.txt");
         bWriter.writeToFile(board, 1, 1);
-
         assertEquals(expected, Files.readString(path));
     }
 
@@ -406,20 +398,17 @@ public class GameBoardTest {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-
         assertTrue(Files.notExists(path));
-
         assertNotNull(bReader.readFromFile());
     }
 
     @Test
-    public void test_file_fileNotFound() {
+    public void test_fileIsEmpty() {
 
     }
 
     @Test
-    public void test_file_fileEmpty() {
+    public void test_deleteFile() {
 
     }
-
 }

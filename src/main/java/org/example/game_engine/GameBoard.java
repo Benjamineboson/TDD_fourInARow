@@ -6,13 +6,11 @@ import org.example.IO_utils.BWriter;
 import org.example.IO_utils.ScannerInput;
 import org.example.exceptions.ColumnFullException;
 
-import java.io.*;
-
 public class GameBoard implements GameEngine {
 
     private ScannerInput scannerInput = new ScannerInput();
-    BWriter bufferWriter = new BWriter();
-    BReader bufferReader = new BReader();
+    private final BWriter bufferWriter = new BWriter();
+    private final BReader bufferReader = new BReader();
 
     private String[][] gameBoard;
     private boolean playerOne;
@@ -94,7 +92,6 @@ public class GameBoard implements GameEngine {
 
         if (winner.equals("Player One")) playerOneWinStreak++;
         else playerTwoWinStreak++;
-
         System.out.println("Current score: " + "PlayerOne: " + playerOneWinStreak + " PlayerTwo: " + playerTwoWinStreak);
         if (numberOfRounds == 0) {
             App.startApp();
@@ -116,7 +113,6 @@ public class GameBoard implements GameEngine {
 
     public void printCurrentBoard() {
         bufferWriter.writeToFile(gameBoard,movesCounter,roundsCounter);
-
         System.out.println("\n┌───┬───┬───┬───┬───┬───┬───┐");
         for (int i = gameBoard.length-1; i >= 0; i--) {
             System.out.print("│ ");
@@ -136,7 +132,6 @@ public class GameBoard implements GameEngine {
     public String checkWinner() {
         int row = Integer.parseInt(previousMove.substring(0,1));
         int col = Integer.parseInt(previousMove.substring(1));
-
         String currentPlayer = playerOne ? "O" : "X";
         int streak = 0;
 
@@ -144,7 +139,6 @@ public class GameBoard implements GameEngine {
             for (int i = 1; i < 4; i++){
                 if (row >= 3 && gameBoard[row-i][col].equals(currentPlayer)) streak++;
                 if (streak == 3) {
-
                     return currentPlayer.equals("X") ? "Player One" : "Player Two";
                 }
             }
@@ -157,7 +151,6 @@ public class GameBoard implements GameEngine {
                 }
             }
             streak = 0;
-
             //Horizontally right
             for (int i = 1; i < 4; i++){
                 if (col <= 3 && gameBoard[row][col+i].equals(currentPlayer)) streak++;
@@ -166,8 +159,7 @@ public class GameBoard implements GameEngine {
                 }
             }
             streak = 0;
-
-        //Diagonally down and to the right
+            //Diagonally down and to the right
             for (int i = 1; i < 4; i++){
                 if ((row >= 3 && col <= 3) && (gameBoard[row-i][col+i].equals(currentPlayer))) streak++;
                 if (streak == 3) {
@@ -175,30 +167,23 @@ public class GameBoard implements GameEngine {
                 }
             }
             streak = 0;
-
-
-        //Diagonally down and to the left
+            //Diagonally down and to the left
             for (int i = 1; i < 4; i++){
                 if ((row >= 3 && col >= 3)&&gameBoard[row-i][col-i].equals(currentPlayer)) streak++;
                 if (streak == 3) {
                     return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
                 }
             }
-
-        streak = 0;
-
-
-        //Diagonally up and to the right
+            streak = 0;
+            //Diagonally up and to the right
             for (int i = 1; i < 4; i++){
                 if ((row < 3 && col <= 3)&&gameBoard[row+i][col+i].equals(currentPlayer)) streak++;
                 if (streak == 3) {
-                return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
-              }
+                    return currentPlayer.equals("X") ? "Player One" : "Player Two" ;
+                }
             }
-
-        streak = 0;
-
-        //Diagonally up and to the left
+            streak = 0;
+            //Diagonally up and to the left
             for (int i = 1; i < 4; i++){
                if ((row < 3 && col >= 3)&&gameBoard[row+i][col-i].equals(currentPlayer)) streak++;
                if (streak == 3) {
@@ -214,12 +199,9 @@ public class GameBoard implements GameEngine {
         for (int i = 0; i < previousRound.length-2; i++) {
             System.out.println(previousRound[i]);
         }
-
     }
-
+    // Used by tests
     public void setPlayerOne(boolean playerOne) {
         this.playerOne = playerOne;
     }
-
-
 }
