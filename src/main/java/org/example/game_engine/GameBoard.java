@@ -25,10 +25,6 @@ public class GameBoard implements GameEngine {
     private int movesCounter;
     private int playerOneWinStreak;
     private int playerTwoWinStreak;
-    private int playerOneDiagonallyToTheRight;
-    private int playerTwoDiagonallyToTheRight;
-    private int playerOneDiagonallyToTheLeft;
-    private int playerTwoDiagonallyToTheLeft;
 
     public GameBoard() {
         this.previousMove = "";
@@ -38,10 +34,6 @@ public class GameBoard implements GameEngine {
         this.playerOneWinStreak = 0;
         this.playerTwoWinStreak = 0;
         this.movesCounter = 0;
-        this.playerOneDiagonallyToTheRight = 0;
-        this.playerTwoDiagonallyToTheRight = 0;
-        this.playerOneDiagonallyToTheLeft = 0;
-        this.playerTwoDiagonallyToTheLeft = 0;
 
         this.gameBoard = new String[][]{
                 {" ", " ", " ", " ", " ", " ", " "},
@@ -58,10 +50,6 @@ public class GameBoard implements GameEngine {
         roundsCounter = 1;
         playerTwoWinStreak = 0;
         playerOneWinStreak = 0;
-        playerOneDiagonallyToTheRight = 0;
-        playerTwoDiagonallyToTheRight = 0;
-        playerOneDiagonallyToTheLeft = 0;
-        playerTwoDiagonallyToTheLeft = 0;
         resetBoard();
         play();
     }
@@ -156,12 +144,16 @@ public class GameBoard implements GameEngine {
         
         // Vertically down
         for (int i = 1; i < 4; i++) {
-            if (row >= 3 && gameBoard[row - i][col].equals(currentPlayer)) streak++;
+            if (row >= 3 && gameBoard[row - i][col].equals(currentPlayer)){
+                streak++;
+            }else{
+                streak = 0;
+            }
             if (streak == 3) {
                 return currentPlayer.equals("X") ? "Player One" : "Player Two";
             }
         }
-        streak = 0;
+
         //Horizontally total
         for (int i = 0; i < 7; i++) {
             if (gameBoard[row][i].equals(currentPlayer)) {
@@ -173,8 +165,6 @@ public class GameBoard implements GameEngine {
                 return currentPlayer.equals("X") ? "Player One" : "Player Two";
             }
         }
-
-
 
         //Diagonally from top left, get starting point
         int x = 0;
@@ -192,15 +182,12 @@ public class GameBoard implements GameEngine {
                 y = row;
             }
         }
-        System.out.println("X: " + x + "\nY: " + y);
 
         //Start checking from top left
         for (int i = 0; i < 7; i++) {
             if ((x+i) < 7 && (y-i) > -1) {
-                System.out.println((x+i) +" " + (y-i));
                 if (gameBoard[y-i][x+i].equals(currentPlayer)) {
                     streak++;
-                    System.out.println("Streak: " + streak);
                 } else {
                     streak = 0;
                 }
@@ -209,7 +196,6 @@ public class GameBoard implements GameEngine {
                 }
             }
         }
-
 
         //Diagonally from top right, get starting point
         x = 0;
@@ -227,16 +213,12 @@ public class GameBoard implements GameEngine {
                 y = row;
             }
         }
-        System.out.println("X2: " + x + "\nY2: " + y);
 
         //Start checking from top right
         for (int i = 0; i < 7; i++) {
             if ((x-i) > -1 && (y-i) > -1) {
-                System.out.println((x-i) + " " + (y-i));
                 if (gameBoard[y-i][x-i].equals(currentPlayer)) {
                     streak++;
-                    System.out.println("Streak: " + streak);
-
                 } else {
                     streak = 0;
                 }
@@ -245,55 +227,6 @@ public class GameBoard implements GameEngine {
                 }
             }
         }
-/*
-        playerOneDiagonallyToTheRight = 0;
-        playerTwoDiagonallyToTheRight = 0;
-        playerOneDiagonallyToTheLeft = 0;
-        playerTwoDiagonallyToTheLeft = 0;
-
-        //Diagonally down and to the left
-        for (int i = 1; i < 4; i++) {
-
-            if ((row >= 3 && col >= 3) && gameBoard[row - i][col - i].equals(currentPlayer)){
-                if (currentPlayer.equals("X")) playerOneDiagonallyToTheRight++;
-                if (currentPlayer.equals("O")) {
-                    System.out.println("here! streak: " + playerTwoDiagonallyToTheRight);
-                    playerTwoDiagonallyToTheRight++;
-                }
-            }
-            if (playerOneDiagonallyToTheRight == 3) return "Player One";
-            if (playerTwoDiagonallyToTheRight == 3) {
-                return "Player Two";
-            }
-        }
-        //Diagonally up and to the right
-        for (int i = 1; i < 4; i++) {
-            if ((row < 3 && col <= 3) && gameBoard[row + i][col + i].equals(currentPlayer)){
-                if (currentPlayer.equals("X")) playerOneDiagonallyToTheRight++;
-                if (currentPlayer.equals("O")) playerTwoDiagonallyToTheRight++;
-            }
-            if (playerOneDiagonallyToTheRight == 3) return "Player One";
-            if (playerTwoDiagonallyToTheRight == 3) return "Player Two";
-        }
-        //Diagonally up and to the left
-        for (int i = 1; i < 4; i++) {
-            if ((row < 3 && col >= 3) && gameBoard[row + i][col - i].equals(currentPlayer)){
-                if (currentPlayer.equals("X")) playerOneDiagonallyToTheLeft++;
-                if (currentPlayer.equals("O")) playerTwoDiagonallyToTheLeft++;
-            }
-            if (playerOneDiagonallyToTheLeft == 3) return "Player One";
-            if (playerTwoDiagonallyToTheLeft == 3) return "Player Two";
-        }
-        //Diagonally down and to the right
-        for (int i = 1; i < 4; i++) {
-            if ((row >= 3 && col <= 3) && (gameBoard[row - i][col + i].equals(currentPlayer))){
-                if (currentPlayer.equals("X")) playerOneDiagonallyToTheLeft++;
-                if (currentPlayer.equals("O")) playerTwoDiagonallyToTheLeft++;
-            }
-            if (playerOneDiagonallyToTheLeft == 3) return "Player One";
-            if (playerTwoDiagonallyToTheLeft == 3) return "Player Two";
-        }
-*/
         return "Draw";
     }
 
@@ -308,7 +241,7 @@ public class GameBoard implements GameEngine {
 
     @Override
     public String deleteReplay() {
-        Path path = Paths.get("src/main/resources/fileName.txt");
+        Path path = Paths.get("src/main/resources/Replay.txt");
         String result = Files.notExists(path) ? "There is no Replay to delete" : "Replay was deleted";
         try {
             Files.deleteIfExists(path);

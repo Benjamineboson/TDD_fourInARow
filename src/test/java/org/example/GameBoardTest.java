@@ -412,12 +412,8 @@ public class GameBoardTest {
                 {" "," "," "," "," "," ","X"}};
 
         bWriter.writeToFile(board, 1, 1);
-        try {
-            Files.deleteIfExists(pathToFile);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        assertTrue(Files.notExists(pathToFile));
+        String expected = "Replay was deleted";
+        assertEquals(expected, gameBoard.deleteReplay());
     }
 
     @Test
