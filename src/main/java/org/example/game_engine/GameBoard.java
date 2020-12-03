@@ -214,6 +214,7 @@ public class GameBoard implements GameEngine {
             }
         }
 
+        streak = 0;
         //Start checking from top right
         for (int i = 0; i < 7; i++) {
             if ((x-i) > -1 && (y-i) > -1) {
