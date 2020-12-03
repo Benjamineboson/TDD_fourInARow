@@ -25,6 +25,7 @@ public class GameBoard implements GameEngine {
     private int movesCounter;
     private int playerOneWinStreak;
     private int playerTwoWinStreak;
+    private boolean boardFull;
 
     public GameBoard() {
         this.previousMove = "";
@@ -87,6 +88,16 @@ public class GameBoard implements GameEngine {
         if (!checkWinner().equals("Draw")) {
             numberOfRounds--;
             printWinner(checkWinner());
+        }
+        if (checkWinner().equals("Draw") && boardFull) {
+            System.out.println("It's a draw.");
+            System.out.println("Current score: " + "PlayerOne: " + playerOneWinStreak + " PlayerTwo: " + playerTwoWinStreak);
+            numberOfRounds--;
+            if (numberOfRounds == 0) {
+                App.startApp();
+                roundsCounter = 0;
+            }
+            resetBoard();
         }
         return gameBoard;
     }
@@ -154,6 +165,8 @@ public class GameBoard implements GameEngine {
             }
         }
 
+        streak = 0;
+
         //Horizontally total
         for (int i = 0; i < 7; i++) {
             if (gameBoard[row][i].equals(currentPlayer)) {
@@ -165,6 +178,8 @@ public class GameBoard implements GameEngine {
                 return currentPlayer.equals("X") ? "Player One" : "Player Two";
             }
         }
+
+        streak = 0;
 
         //Diagonally from top left, get starting point
         int x = 0;
@@ -197,6 +212,8 @@ public class GameBoard implements GameEngine {
             }
         }
 
+        streak = 0;
+
         //Diagonally from top right, get starting point
         x = 0;
         y = 0;
@@ -214,7 +231,6 @@ public class GameBoard implements GameEngine {
             }
         }
 
-        streak = 0;
         //Start checking from top right
         for (int i = 0; i < 7; i++) {
             if ((x-i) > -1 && (y-i) > -1) {
@@ -226,6 +242,17 @@ public class GameBoard implements GameEngine {
                 if (streak == 4) {
                     return currentPlayer.equals("X") ? "Player One" : "Player Two";
                 }
+            }
+        }
+
+        //check if board is full
+        int counter = 0;
+        for (int i = 0; i < 7; i++) {
+            if (gameBoard[5][i].equals("X") || gameBoard[5][i].equals("O")) {
+                counter++;
+            }
+            if (counter == 7) {
+                boardFull = true;
             }
         }
         return "Draw";

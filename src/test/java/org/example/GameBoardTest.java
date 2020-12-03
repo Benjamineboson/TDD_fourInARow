@@ -344,6 +344,18 @@ public class GameBoardTest {
         assertEquals(expectedWinner,gameBoard.checkWinner());
     }
 
+    @Test
+    public void test_board_full(){
+        String combination = "01234560123456012345612345610023456012345";
+        for (int i = 0; i <  combination.length(); i++) {
+            gameBoard.makeAMove(Integer.parseInt(String.valueOf(combination.charAt(i))));
+        }
+        String expectedWinner = "Draw";
+        gameBoard.makeAMove(6);
+        assertEquals(expectedWinner,gameBoard.checkWinner());
+    }
+
+
     // --------------------------------------- viewReplay() ---------------------------------------
 
     @Test
